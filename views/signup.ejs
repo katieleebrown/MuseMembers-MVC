@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MuseMembers Signup</title>
 </head>
 <body>
     <% if (locals.messages.errors) { %>
@@ -13,10 +13,45 @@
         <% }) %>    
     <% } %>
     <form action="/signup" method="POST">
-        <input type="text" name="userName" placeholder="User Name">
-        <input type="email" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password">
-        <input type="password" name="confirmPassword" placeholder="Confirm Password">
+        <div class="formGroup">
+            <label for="name">Name:</label>
+            <input type="text" name="name" placeholder="Jane Doe" required>
+        </div>
+        <div class="formGroup">
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="formGroup">
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="formGroup">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+        </div>
+        <div class="formGroup">
+            <label for="phone"></label>
+            <input type="number" name="phone" placeholder="(123)456-7890">
+        </div>
+        <div id="addressGroup">
+            <div class="formGroup">
+                <label for="address">Address Line 1:</label>
+                <input type="text" name="address" placeholder="Address Line 1">
+            </div>
+            <div class="formGroup">
+                <label for="city">City: </label>
+                <input type="text" name="city" placeholder="City">
+            </div>
+            <div class="formGroup">
+                <label for="state">State:</label>
+                <input type="text" name="state" placeholder="State">
+            </div>
+            <div class="formGroup">
+                <label for="zipcode">Zipcode:</label>
+                <input type="number" name="zipcode" placeholder="Zipcode">
+            </div>
+        </div>
+        
         <input type="submit">
     </form>
 </body>
