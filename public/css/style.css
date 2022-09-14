@@ -1,10 +1,30 @@
-h1{
-    color: red;
+/* Basic Setup */
+body::before {
+    display: block;
+    content: '';
+    height: 100px;
 }
-.completed{
-    text-decoration: line-through;
-    color: gray;
+
+body,
+.source-sans {
+    font-family: 'Source Sans 3', sans-serif;
 }
-.not{
-    text-decoration: underline;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.voltaire {
+    font-family: 'Voltaire', sans-serif;
+}
+
+/* Index CSS */
+
+
+/* Media Styles */
+@media(min-width: 768px) {
+    .news-input {
+        width: 50%;
+    }
 }
