@@ -2,12 +2,12 @@ const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
+  // Error with importing the name field - need to fix
   name: {
     type: String,
-    required: true,
   },
-  email: { 
-    type: String, 
+  email: {
+    type: String,
     unique: true,
     required: true,
   },
@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   address: String,
+  aptNum: String,
   city: String,
   state: String,
   zipcode: Number,
@@ -24,8 +25,8 @@ const UserSchema = new mongoose.Schema({
 
 
 // Password hash middleware.
- 
- UserSchema.pre('save', function save(next) {
+
+UserSchema.pre('save', function save(next) {
   const user = this
   if (!user.isModified('password')) { return next() }
   bcrypt.genSalt(10, (err, salt) => {
