@@ -71,6 +71,10 @@ function partnerMuseumFormDisplay() {
     orgDetailsForm.classList.remove('hidden')
 }
 
+var map;
+var service;
+var infowindow;
+
 // For Google Find Place API
 function showMapDetails() {
     mapContainer.classList.remove('hidden')
@@ -99,6 +103,7 @@ function showMapDetails() {
             orgAddressForm.innerText = results[0].formatted_address;
 
             // store Place_Id for later searches in local storage
+            // TODO need to add more details to localstorage at this point here. Address, phone, name, hours, preferrably.
             var searchId = results[0].place_id;
             localStorage.setItem('organization', searchId);
             map.setCenter(results[0].geometry.location);
@@ -106,12 +111,7 @@ function showMapDetails() {
     });
 }
 
-// Compiled TS for Google Maps
-// Object.defineProperty(exports, "__esModule", { value: true });
-var map;
-var service;
-var infowindow;
-
+// Google Map Map on Load Feature - not currently in use
 function initMap() {
     console.log('map is loading');
 

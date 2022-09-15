@@ -33,19 +33,7 @@
 
         <!-- Read -->
         <section id="myMemberships" class="pt-5 pb-3 p-lg-5 pt-lg-5 text-center text-sm-start bg-light">
-            <!-- <h1>Todos</h1>
-                <ul>
-                    <% todos.forEach( el=> { %>
-                        <li class='todoItem' data-id='<%=el._id%>'>
-                            <span class='<%= el.completed === true ? ' completed' : 'not' %>'><%= el.todo %></span>
-                            <span class='del'> Delete </span>
-                        </li>
-                        <% }) %>
-                </ul>
 
-                <h2>
-                    <%= user.userName %> has <%= left %> things left to do.
-                </h2> -->
             <div class="container">
                 <h2>My Memberships</h2>
             </div>
@@ -53,7 +41,22 @@
                 <% if (todos.length==0) { %>
                     <p>You haven't added any memberships. Checkout our <a href="#showNearby">nearby</a> feature
                         to see museums near you or <a href="addAMembership">add a membership</a>!</p>
-                    <% } %>
+                    <% } else { %>
+                        <div class="container">
+                            <% todos.forEach( membership=> { %>
+                                <div class="card">
+                                    <h3 class="card-title">
+                                        <%=membership.museumName%>
+                                    </h3>
+                                    <p class="card-text">Expires: <%=membership.expirationDate%>
+                                    </p>
+                                    <p class="card-text">Max Guests: <%=membership.maxGuests%>
+                                    </p>
+                                </div>
+                                <% }) %>
+
+                        </div>
+                        <% } %>
             </div>
         </section>
 

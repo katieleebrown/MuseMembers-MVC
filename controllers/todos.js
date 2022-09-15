@@ -12,6 +12,7 @@ module.exports = {
         }
     },
     createTodo: async (req, res) => {
+        // Probably need an if statement to determine what should be used for the museumName sent to the DB. Should pull place_id from localstorage if applicable, and maybe other data too?
         try {
             await Todo.create({
                 museumName: req.body.chooseMuseum,
