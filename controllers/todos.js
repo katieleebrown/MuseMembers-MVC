@@ -13,7 +13,12 @@ module.exports = {
     },
     createTodo: async (req, res) => {
         try {
-            await Todo.create({ todo: req.body.todoItem, completed: false, userId: req.user.id })
+            await Todo.create({
+                museumName: req.body.chooseMuseum,
+                maxGuests: req.body.maxGuests,
+                expirationDate: new Date(req.body.expiration).toDateString(),
+                userId: req.user.id
+            })
             console.log('Todo has been added!')
             res.redirect('/todos')
         } catch (err) {

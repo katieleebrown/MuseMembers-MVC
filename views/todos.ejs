@@ -67,12 +67,12 @@
             <form action="/todos/createTodo" method='POST'>
                 <div class="container form-group">
                     <label for="chooseMuseum">Choose Your Museum:</label>
-                    <select id="chooseMuseum" class="form-select bg-light" name="chooseMuseum">
+                    <select id="chooseMuseum" class="form-select bg-light" name="chooseMuseum" required>
                         <option value=""></option>
-                        <option value="caryChildrensMuseum">Cary Children's Museum</option>
-                        <option value="cityOfOaks">City of Oaks Historical Center</option>
-                        <option value="museumOfClimateSciences">Museum of Climate Sciences</option>
-                        <option value="ncFarmPark">NC Farm Park</option>
+                        <option value="Cary Childrens Museum">Cary Children's Museum</option>
+                        <option value="City Of Oaks Historical Center">City of Oaks Historical Center</option>
+                        <option value="Museum Of Climate Sciences">Museum of Climate Sciences</option>
+                        <option value="NC Farm Park and Zoo">NC Farm Park and Zoo</option>
                         <option value="other">Other</option>
                     </select>
                     <small>If you'd like to add a membership for a non-partner organization, choose
@@ -117,13 +117,14 @@
 
                 <div class="form-row container">
                     <div class="container form-group col-sm-6">
-                        <label for="expiration">Maximum Number of Guests:</label>
-                        <input type="number" class="form-control bg-light" placeholder="0" min="0" max="12">
+                        <label for="maxGuests">Maximum Number of Guests:</label>
+                        <input type="number" id="maxGuests" name="maxGuests" class="form-control bg-light"
+                            placeholder="0" min="0" max="12" required>
                     </div>
 
                     <div class="container form-group col-sm-6">
                         <label for="expiration">Expiration Date:</label>
-                        <input type="date" class="form-control bg-light">
+                        <input type="date" id="expiration" name="expiration" class="form-control bg-light">
                     </div>
                 </div>
 

@@ -1,13 +1,16 @@
 const mongoose = require('mongoose')
 
 const TodoSchema = new mongoose.Schema({
-  todo: {
+  museumName: {
     type: String,
     required: true,
   },
-  completed: {
-    type: Boolean,
+  maxGuests: {
+    type: Number,
     required: true,
+  },
+  expirationDate: {
+    type: String
   },
   userId: {
     type: String,
