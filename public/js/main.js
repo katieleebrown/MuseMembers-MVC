@@ -7,12 +7,15 @@ const orgAddressForm = document.getElementById('displayOrgAddressForm')
 const addOrgNote = document.getElementById('museumSearchTag')
 const orgDetailsForm = document.getElementById('selectedOrgInfoForm')
 const mapContainer = document.getElementById('mapContainer')
+const mapSearch = document.querySelector('#searchMap')
+
 
 // Event Listeners
 Array.from(deleteBtn).forEach((el) => {
     el.addEventListener('click', deleteTodo)
 })
 pickMuseumList.addEventListener('click', displaySearch)
+mapSearch.addEventListener('click', showMapDetails)
 
 
 // Delete Membership Function
@@ -39,7 +42,8 @@ function displaySearch() {
     if (pickMuseumList.selectedIndex > 0) {
         if ('other' === pickMuseumList.options[pickMuseumList.selectedIndex].value) {
             orgSearch.classList.remove('hidden')
-            mapContainer.classList.remove('hidden')
+            orgDetailsForm.classList.add('hidden')
+            addOrgNote.classList.remove('hidden')
         } else if ('caryChildrensMuseum' === pickMuseumList.options[pickMuseumList.selectedIndex].value) {
             orgNameForm.innerText = `Cary Children's Museum`;
             orgAddressForm.innerText = `100 N Main St, Cary NC 27516`
@@ -60,8 +64,15 @@ function displaySearch() {
     }
 }
 
+// Display toggles for partner museums
 function partnerMuseumFormDisplay() {
     addOrgNote.classList.add('hidden')
     mapContainer.classList.add('hidden')
+    orgDetailsForm.classList.remove('hidden')
+}
+
+// For Search API - this displays correct divs. API call and subsequent display is in index.ts
+function showMapDetails() {
+    mapContainer.classList.remove('hidden')
     orgDetailsForm.classList.remove('hidden')
 }

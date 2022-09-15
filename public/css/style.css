@@ -29,6 +29,10 @@ h5,
     display: none;
 }
 
+#map {
+    max-height: 300px;
+}
+
 /* Media Styles */
 @media(min-width: 768px) {
     .news-input {
