@@ -6,12 +6,12 @@
 const button = document.querySelector('#searchMap')
 button?.addEventListener('click', updateMap)
 
-
 let map: google.maps.Map;
 let service: google.maps.places.PlacesService;
 let infowindow: google.maps.InfoWindow;
 
 function initMap(): void {
+  console.log('map is loading')
   const raleigh = new google.maps.LatLng(35.7796, 78.6382);
 
   infowindow = new google.maps.InfoWindow();
@@ -64,10 +64,11 @@ declare global {
     initMap: () => void;
   }
 }
-// window.initMap = initMap;
+window.initMap = initMap;
 
 function updateMap() {
-  const search = document.querySelector('#orgNameInput').value
+  console.log('button clicked')
+  const search = (<HTMLInputElement>document.getElementById('orgNameInput')).value
 
   const request = {
     query: search,
@@ -96,7 +97,7 @@ function updateMap() {
         let orgName = document.querySelector('#orgName') as HTMLHeadingElement
         orgName.innerHTML = results[0].name
 
-        let orgAddress = document.querySelector('#orgAddress') as HTMLParagraphElement;
+        let orgAddress = document.querySelector('#orgAddress') as HTMLParagraphElement
         orgAddress.innerHTML = results[0].formatted_address
 
         // store Place_Id for later searches in local storage
