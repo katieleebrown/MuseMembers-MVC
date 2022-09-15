@@ -11,7 +11,6 @@
     <title>MuseMembers</title>
 
     <!-- Bootstrap & Stylesheets -->
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.min.css">
@@ -23,15 +22,18 @@
         rel="stylesheet">
     <link rel="icon" href="/images/BlackArtLogoMini.png">
     <script src="https://kit.fontawesome.com/8745b435ef.js" crossorigin="anonymous"></script>
+
+    <!-- Google API Scripts -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script type="module" src="/index.ts"></script>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
     <%- include('partials/loginHeader') -%>
 
         <!-- Read -->
-        <section class="p-5 p-lg-5 pt-lg-5 text-center text-sm-start">
-            <div class="container">
-                <h1>Todos</h1>
+        <section id="myMemberships" class="pt-5 pb-3 p-lg-5 pt-lg-5 text-center text-sm-start bg-light">
+            <!-- <h1>Todos</h1>
                 <ul>
                     <% todos.forEach( el=> { %>
                         <li class='todoItem' data-id='<%=el._id%>'>
@@ -43,14 +45,101 @@
 
                 <h2>
                     <%= user.userName %> has <%= left %> things left to do.
-                </h2>
+                </h2> -->
+            <div class="container">
+                <h2>My Memberships</h2>
+            </div>
+            <div class="container">
+                <% if (todos.length==0) { %>
+                    <p>You haven't added any memberships. Checkout our <a href="#showNearby">nearby</a> feature
+                        to see museums near you or <a href="addAMembership">add a membership</a>!</p>
+                    <% } %>
+            </div>
+        </section>
 
-                <form action="/todos/createTodo" method='POST'>
-                    <input type="text" placeholder="Enter Todo Item" name='todoItem'>
-                    <input type="submit">
-                </form>
+        <!-- Create/Add Memberships -->
+        <section id="addAMembership" class="m-3">
+            <div class="container">
+                <h2>Add a Membership</h2>
             </div>
 
+            <form action="/todos/createTodo" method='POST'>
+                <div class="container form-group">
+                    <label for="chooseMuseum">Choose Your Museum:</label>
+                    <select id="chooseMuseum" class="form-select bg-light" name="chooseMuseum">
+                        <option value="caryChildrensMuseum">Cary Children's Museum</option>
+                        <option value="cityOfOaks">City of Oaks Historical Center</option>
+                        <option value="museumOfClimateSciences">Museum of Climate Sciences</option>
+                        <option value="ncFarmPark">NC Farm Park</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <small>If you'd like to add a membership for a non-partner organization, choose
+                        'Other'.</small>
+                </div>
+
+                <!-- This should pop up on selection of 'other' on chooseMuseum dropdown -->
+                <div id="organizationSearch" class="container hidden">
+                    <label for="orgName">Search for Your Organization:</label>
+                    <div class="input-group">
+                        <input type="text" name="orgName" id="orgNameInput" class="form-control bg-light p-3"
+                            placeholder="Organization Name">
+                        <button id="searchMap" class="btn btn-primary"><i
+                                class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+
+                <!-- This should pop up on click of 'orgName'button, populated with info from API call-->
+                <div class="container hidden">
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <div class="row g4">
+                            <div class="col-sm-6 col-md-3 my-2">
+                                <div class="card bg-white">
+                                    <div class="card-body text-center">
+                                        <div id="map" class=""></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-3 my-2">
+                                <div class="card bg-white">
+                                    <div class="card-body text-center">
+                                        <h3 class="card-title mb-3">Organization Name</h3>
+                                        <p class="card-subtitle m-2">Here is the address</p>
+                                        <small>Is this your museum? If not, try a new name in the search bar
+                                            above.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container form-group">
+                    <label for="expiration">Maximum Number of Guests:</label>
+                    <input type="number" class="form-control bg-light" placeholder="0" min="0" max="12">
+                </div>
+
+                <div class="container form-group">
+                    <label for="expiration">Expiration Date:</label>
+                    <input type="date" class="form-control bg-light">
+                </div>
+
+                <div class="container text-center">
+                    <input id="addMembershipBtn" type="submit" class="btn btn-primary btn-lg shadow voltaire my-2">
+                </div>
+            </form>
+        </section>
+
+        <!-- Nearby Museum Recommendations -->
+        <section id="showNearby" class="pt-5 pb-3 bg-light">
+            <div class="container">
+                <h2>Neaby Museums & Cutltural Institutions</h2>
+                <p>Looking for something new? Here are some places to checkout near you:</p>
+            </div>
+
+            <div class="container">
+
+            </div>
         </section>
 
         <%- include('partials/footer') -%>
@@ -60,6 +149,10 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
                 crossorigin="anonymous"></script>
+            <!-- For Google Maps API -->
+            <script
+                src="https://maps.googleapis.com/maps/api/js?key=***REMOVED***&callback=initMap&libraries=places&v=weekly"
+                defer></script>
 </body>
 
 </html>
