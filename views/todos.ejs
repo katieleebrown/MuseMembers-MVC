@@ -67,6 +67,7 @@
                 <div class="container form-group">
                     <label for="chooseMuseum">Choose Your Museum:</label>
                     <select id="chooseMuseum" class="form-select bg-light" name="chooseMuseum">
+                        <option value=""></option>
                         <option value="caryChildrensMuseum">Cary Children's Museum</option>
                         <option value="cityOfOaks">City of Oaks Historical Center</option>
                         <option value="museumOfClimateSciences">Museum of Climate Sciences</option>
@@ -78,7 +79,7 @@
                 </div>
 
                 <!-- This should pop up on selection of 'other' on chooseMuseum dropdown -->
-                <div id="organizationSearch" class="container hidden">
+                <div id="organizationSearch" class="container mb-4 hidden">
                     <label for="orgName">Search for Your Organization:</label>
                     <div class="input-group">
                         <input type="text" name="orgName" id="orgNameInput" class="form-control bg-light p-3"
@@ -89,39 +90,41 @@
                 </div>
 
                 <!-- This should pop up on click of 'orgName'button, populated with info from API call-->
-                <div class="container hidden">
-                    <div class="d-md-flex justify-content-between align-items-center">
-                        <div class="row g4">
-                            <div class="col-sm-6 col-md-3 my-2">
-                                <div class="card bg-white">
-                                    <div class="card-body text-center">
-                                        <div id="map" class=""></div>
-                                    </div>
+                <div id="selectedOrgInfoForm" class="container hidden">
+                    <div class="d-md-flex justify-content-center align-items-center row g4">
+                        <div id="mapContainer" class="col-sm-6 col-lg-6 my-2">
+                            <div class="card bg-white">
+                                <div class="card-body text-center">
+                                    <div id="map" class=""></div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-sm-6 col-md-3 my-2">
-                                <div class="card bg-white">
-                                    <div class="card-body text-center">
-                                        <h3 class="card-title mb-3">Organization Name</h3>
-                                        <p class="card-subtitle m-2">Here is the address</p>
-                                        <small>Is this your museum? If not, try a new name in the search bar
-                                            above.</small>
-                                    </div>
+                        <div class="col-sm-6 col-lg-6 my-2">
+                            <div class="card bg-white">
+                                <div class="card-body text-center">
+                                    <h3 id="displayOrgNameForm" class="card-title mb-3">Organization Name</h3>
+                                    <p id="displayOrgAddressForm" class="card-subtitle m-2">Here is the address</p>
+                                    <small id="museumSearchTag">Is this your museum? If not, try a new name in
+                                        the search bar
+                                        above.</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="container form-group">
-                    <label for="expiration">Maximum Number of Guests:</label>
-                    <input type="number" class="form-control bg-light" placeholder="0" min="0" max="12">
                 </div>
 
-                <div class="container form-group">
-                    <label for="expiration">Expiration Date:</label>
-                    <input type="date" class="form-control bg-light">
+                <div class="form-row container">
+                    <div class="container form-group col-sm-6">
+                        <label for="expiration">Maximum Number of Guests:</label>
+                        <input type="number" class="form-control bg-light" placeholder="0" min="0" max="12">
+                    </div>
+
+                    <div class="container form-group col-sm-6">
+                        <label for="expiration">Expiration Date:</label>
+                        <input type="date" class="form-control bg-light">
+                    </div>
                 </div>
 
                 <div class="container text-center">
