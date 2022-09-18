@@ -42,31 +42,38 @@
                     <p>You haven't added any memberships. Checkout our <a href="#showNearby">nearby</a> feature
                         to see museums near you or <a href="addAMembership">add a membership</a>!</p>
                     <% } else { %>
-                        <div class="container">
+                        <div class="card-deck">
                             <% memberships.forEach( membership=> { %>
-                                <div class="card p-3">
-                                    <div class="card-top">
-                                        <h3 class="card-title">
-                                            <%=membership.museumName%>
-                                        </h3>
-                                        <% if(membership.expiresSoon) { %>
-                                            <p class="card-subtitle"><i
-                                                    class="fa-solid fa-circle-exclamation primary"></i>Membership
-                                                expires soon</p>
-                                            <% } %>
+                                <% console.log(membership) %>
+                                    <div class="card p-3">
+                                        <div class="card-top">
+                                            <h3 class="card-title">
+                                                <%=membership.museumName%>
+                                            </h3>
+                                            <% if(membership.expired) { %>
+                                                <p class="card-subtitle px-3"><i
+                                                        class="fa-solid fa-circle-exclamation"></i>
+                                                    Membership
+                                                    expired</p>
+                                                <% } else if (membership.expiringSoon){ %>
+                                                    <p class="card-subtitle px-3"><i
+                                                            class="fa-solid fa-circle-exclamation primary"></i>
+                                                        Membership
+                                                        expiring soon</p>
+                                                    <% } %>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">Expires: <strong>
+                                                    <%=membership.expirationDate%>
+                                                </strong>
+                                            </p>
+                                            <p class="card-text">Max Guests: <strong>
+                                                    <%=membership.maxGuests%>
+                                                </strong>
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Expires: <strong>
-                                                <%=membership.expirationDate%>
-                                            </strong>
-                                        </p>
-                                        <p class="card-text">Max Guests: <strong>
-                                                <%=membership.maxGuests%>
-                                            </strong>
-                                        </p>
-                                    </div>
-                                </div>
-                                <% }) %>
+                                    <% }) %>
 
                         </div>
                         <% } %>
