@@ -9,7 +9,7 @@ module.exports = {
             oneMonth = oneMonth.setMonth(oneMonth.getMonth() + 1)
             console.log(currentDate, oneMonth)
             const membershipCards = await Membership.find({ userId: req.user.id })
-            // need to forEach through membershipCards to add expired true/false and expiring soon true/false on render
+            // forEach goes through membershipCards to add expired true/false and expiring soon true/false because status depends on your date.
             membershipCards.forEach(card => {
                 card.expired = (new Date(card.expirationDate).getTime() < currentDate.getTime()) ? true : false;
                 card.expiringSoon = (new Date(card.expirationDate).getTime() < new Date(oneMonth).getTime()) ? true : false;
@@ -21,7 +21,12 @@ module.exports = {
         }
     },
     createMembership: async (req, res) => {
-        // Probably need an if statement to determine what should be used for the museumName sent to the DB. Should pull place_id from localstorage if applicable, and maybe other data too?
+        if (pickMuseumList.options[pickMuseumList.selectedIndex].value == 'other') {
+            let place_id = localStorage.getItem('organization')
+            console.log('place_id acquired.')
+
+        }
+
         try {
             await Membership.create({
                 museumName: req.body.chooseMuseum,
