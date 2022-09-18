@@ -1,4 +1,6 @@
-const Membership = require('../models/Membership')
+const Membership = require('../models/Membership');
+const Museum = require('../models/Museum');
+const axios = require('axios');
 
 module.exports = {
     getMemberships: async (req, res) => {
@@ -21,10 +23,32 @@ module.exports = {
         }
     },
     createMembership: async (req, res) => {
-        if (pickMuseumList.options[pickMuseumList.selectedIndex].value == 'other') {
-            let place_id = localStorage.getItem('organization')
+        // roadblock - node cannot access localstorage. Need a different way for additional data to be sent with the form. 
+        // Could I add a hidden form input that gets the place_id added on request? So it can be accessed through req.body.place_id?
+        let selectedPlace_id = req.body.place_id
+        if (selectedPlace_id) {
             console.log('place_id acquired.')
 
+            const museum = await Museum.find({ place_id: selectedPlace_id }).lean
+            if (!museum) {
+                const config = {
+                    method: 'get',
+                    url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${selectedPlace_id}&fields=name,formatted_address,formatted_phone_number,opening_hours,website&key=${process.env.VITE_GOOGLE_MAPS_API_KEY}`,
+                    headers: {}
+                };
+
+                axios(config)
+                    .then(function (response) {
+                        console.log(JSON.stringify(response.data));
+                        // await Museum.create({
+
+                        // })
+                        console.log('A new museum has been added.')
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
         }
 
         try {
@@ -50,7 +74,7 @@ module.exports = {
             console.log(err)
         }
     }
-}
+};
 
 // markComplete: async (req, res) => {
 //     try {

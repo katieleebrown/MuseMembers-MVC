@@ -17,6 +17,10 @@ Array.from(deleteBtn).forEach((el) => {
 pickMuseumList.addEventListener('click', displaySearch)
 mapSearch.addEventListener('click', showMapDetails)
 
+// On load, clear localStorage
+window.onload = function () {
+    localStorage.clear()
+}
 
 // Delete Membership Function
 async function deleteTodo() {
@@ -103,9 +107,10 @@ function showMapDetails() {
             orgAddressForm.innerText = results[0].formatted_address;
 
             // store Place_Id for later searches in local storage
-            // TODO need to add more details to localstorage at this point here. Address, phone, name, hours, preferrably.
             var searchId = results[0].place_id;
             localStorage.setItem('organization', searchId);
+            document.getElementById('place_id').value = searchId
+            pickMuseumList.options[pickMuseumList.selectedIndex].value = results[0].name
             map.setCenter(results[0].geometry.location);
         }
     });
