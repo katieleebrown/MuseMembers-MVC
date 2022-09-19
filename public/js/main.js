@@ -18,9 +18,9 @@ pickMuseumList.addEventListener('click', displaySearch)
 mapSearch.addEventListener('click', showMapDetails)
 
 // On load, clear localStorage
-window.onload = function () {
-    localStorage.clear()
-}
+// window.onload = function () {
+//     localStorage.clear()
+// }
 
 // Delete Membership Function
 async function deleteTodo() {
@@ -51,18 +51,22 @@ function displaySearch() {
         } else if ('Cary Childrens Museum' === pickMuseumList.options[pickMuseumList.selectedIndex].value) {
             orgNameForm.innerText = `Cary Children's Museum`;
             orgAddressForm.innerText = `100 N Main St, Cary NC 27516`
+            document.getElementById('place_id').value = '01'
             partnerMuseumFormDisplay()
         } else if ('Museum Of Climate Sciences' === pickMuseumList.options[pickMuseumList.selectedIndex].value) {
             orgNameForm.innerText = `Museum of Climate Sciences`;
             orgAddressForm.innerText = `500 Sunshine Ln, Raleigh, NC 27202`
+            document.getElementById('place_id').value = '02'
             partnerMuseumFormDisplay()
         } else if ('City Of Oaks Historical Center' === pickMuseumList.options[pickMuseumList.selectedIndex].value) {
             orgNameForm.innerText = `City of Oaks Historical Center`;
             orgAddressForm.innerText = `1587 Sir Walter Ln, Raleigh, NC 27601`
+            document.getElementById('place_id').value = '03'
             partnerMuseumFormDisplay()
         } else if ('NC Farm Park and Zoo' === pickMuseumList.options[pickMuseumList.selectedIndex].value) {
             orgNameForm.innerText = `North Carolina Farm Park & Zoo`;
             orgAddressForm.innerText = `186 Cattlebrush Rd. Durham, NC 27606`
+            document.getElementById('place_id').value = '04'
             partnerMuseumFormDisplay()
         }
     }

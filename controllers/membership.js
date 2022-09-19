@@ -3,6 +3,7 @@ const Museum = require('../models/Museum');
 const axios = require('axios');
 
 module.exports = {
+    // need to add to that membership id loop - call museum collection with the placeid to get details to send with the request
     getMemberships: async (req, res) => {
         console.log(req.user)
         try {
@@ -23,43 +24,48 @@ module.exports = {
         }
     },
     createMembership: async (req, res) => {
-        // roadblock - node cannot access localstorage. Need a different way for additional data to be sent with the form. 
-        // Could I add a hidden form input that gets the place_id added on request? So it can be accessed through req.body.place_id?
+        // Get place_id from form submission
         let selectedPlace_id = req.body.place_id
-        if (selectedPlace_id) {
-            console.log('place_id acquired.')
 
-            const museum = await Museum.find({ place_id: selectedPlace_id }).lean
-            if (!museum) {
-                const config = {
-                    method: 'get',
-                    url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${selectedPlace_id}&fields=name,formatted_address,formatted_phone_number,opening_hours,website&key=${process.env.VITE_GOOGLE_MAPS_API_KEY}`,
-                    headers: {}
-                };
+        // Sets up variables for the google place details API call
+        const config = {
+            method: 'get',
+            url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${selectedPlace_id}&fields=name,formatted_address,formatted_phone_number,opening_hours,website&key=${process.env.VITE_GOOGLE_MAPS_API_KEY}`,
+            headers: {}
+        };
 
-                axios(config)
-                    .then(function (response) {
-                        console.log(JSON.stringify(response.data));
-                        // await Museum.create({
-
-                        // })
-                        console.log('A new museum has been added.')
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
+        // this actually makes the api call, if the place_id is not one of our partner museums
+        // Feature goal - eventually partner museums will have the ability to access & update their own information
+        if (selectedPlace_id != '01' | selectedPlace_id != '02' | selectedPlace_id != '03' | selectedPlace_id != '04') {
+            axios(config)
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    Museum.findOneAndUpdate(selectedPlace_id, {
+                        museumName: response.data[0].result.name,
+                        place_id: selectedPlace_id,
+                        phone_number: response.data[0].result.formatted_phone_number,
+                        formatted_address: response.data[0].result.formatted_address,
+                        hours: response.data[0].result.opening_hours.weekday_text,
+                        website: response.data[0].result.website,
+                    }, { upsert: true })
+                    console.log('A new museum has been added or existing updated.')
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
 
+        // Once we've updated/created the museum, create the membership (linking to that Id)
         try {
             await Membership.create({
                 museumName: req.body.chooseMuseum,
                 maxGuests: req.body.maxGuests,
                 expirationDate: new Date(req.body.expiration).toDateString(),
                 userId: req.user.id,
+                place_id: req.body.place_id
             })
             console.log('Membership has been added!')
-            res.redirect('/membership')
+            // res.redirect('/membership')
         } catch (err) {
             console.log(err)
         }

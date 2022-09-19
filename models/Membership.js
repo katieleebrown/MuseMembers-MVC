@@ -16,6 +16,9 @@ const MembershipSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  place_id: {
+    type: String,
+  }
 })
 
 module.exports = mongoose.model('Membership', MembershipSchema)
