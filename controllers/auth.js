@@ -31,7 +31,7 @@ exports.postLogin = (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) { return next(err) }
       req.flash('success', { msg: 'Success! You are logged in.' })
-      res.redirect(req.session.returnTo || '/memberships')
+      res.redirect(req.session.returnTo || '/membership')
     })
   })(req, res, next)
 }
@@ -49,7 +49,7 @@ exports.logout = (req, res) => {
 
 exports.getSignup = (req, res) => {
   if (req.user) {
-    return res.redirect('/todos')
+    return res.redirect('/membership')
   }
   res.render('signup', {
     title: 'Create Account'
@@ -97,7 +97,7 @@ exports.postSignup = (req, res, next) => {
         if (err) {
           return next(err)
         }
-        res.redirect('/todos')
+        res.redirect('/membership')
       })
     })
   })

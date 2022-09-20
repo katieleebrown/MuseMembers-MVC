@@ -1,3 +1,5 @@
+const { deleteMembership } = require("../../controllers/membership")
+
 // Variables
 const deleteBtn = document.querySelectorAll('.del')
 const orgSearch = document.getElementById('organizationSearch')
@@ -12,25 +14,20 @@ const mapSearch = document.querySelector('#searchMap')
 
 // Event Listeners
 Array.from(deleteBtn).forEach((el) => {
-    el.addEventListener('click', deleteTodo)
+    el.addEventListener('click', deleteMembership)
 })
 pickMuseumList.addEventListener('click', displaySearch)
 mapSearch.addEventListener('click', showMapDetails)
 
-// On load, clear localStorage
-// window.onload = function () {
-//     localStorage.clear()
-// }
-
 // Delete Membership Function
-async function deleteTodo() {
-    const todoId = this.parentNode.dataset.id
+async function deleteMembership() {
+    const MembershipId = this.parentNode.dataset.id
     try {
-        const response = await fetch('todos/deleteTodo', {
+        const response = await fetch('membership/deleteMembership', {
             method: 'delete',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
-                'todoIdFromJSFile': todoId
+                'membershipIdFromJSFile': MembershipId
             })
         })
         const data = await response.json()
