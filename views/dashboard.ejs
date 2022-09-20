@@ -51,63 +51,64 @@
                                                 <a href="#" class="btn btn-primary btn-large shadow voltaire">Edit</a>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Modal for Museum Details Button -->
-                                    <% JSON.stringify(museumInfo) %>
-                                        <div class="modal fade" id="museumDetails<%=membership.place_id%>" tabindex="-1"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">
-                                                            <%= museumInfo[0].museumName %>
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-body bg-light">
-                                                    <div class="mb-3">
-                                                        <p>
-                                                            <strong>Address:</strong>
-                                                            <%=museumInfo[0].formatted_address %>
-                                                        </p>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <p>
-                                                            <strong>Phone:</strong>
-                                                            <%=museumInfo[0].phone_number %>
-                                                        </p>
-                                                    </div>
-                                                    <div>
-                                                        <p><strong>Hours:</strong></p>
-                                                        <div class="container">
-                                                            <% for(let i=0; i < museumInfo[0].hours.length; i++) { %>
-                                                                <p>
-                                                                    <%=museumInfo[0].hours[i]%>
-                                                                </p>
-                                                                <% } %>
+                                        <!-- Modal for Museum Details Button -->
+                                        <% JSON.stringify(museumInfo) %>
+                                            <div class="modal fade" id="museumDetails<%=membership.place_id%>"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                <%= museumInfo[0].museumName %>
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                     </div>
-                                                    <% if (museumInfo[0].website.length !=0) { %>
+                                                    <div class="modal-body bg-light">
                                                         <div class="mb-3">
-                                                            <p><strong>Website:</strong><a
-                                                                    href="<%=museumInfo[0].website%>" target="_blank"
-                                                                    class="pe-auto">
-                                                                    <%=museumInfo[0].website%>
-                                                                </a></p>
+                                                            <p>
+                                                                <strong>Address:</strong>
+                                                                <%=museumInfo[0].formatted_address %>
+                                                            </p>
                                                         </div>
-                                                        <% } %>
-                                                </div>
+                                                        <div class="mb-3">
+                                                            <p>
+                                                                <strong>Phone:</strong>
+                                                                <%=museumInfo[0].phone_number %>
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p><strong>Hours:</strong></p>
+                                                            <div class="container">
+                                                                <% for(let i=0; i < museumInfo[0].hours.length; i++) {
+                                                                    %>
+                                                                    <p>
+                                                                        <%=museumInfo[0].hours[i]%>
+                                                                    </p>
+                                                                    <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <% if (museumInfo[0].website.length !=0) { %>
+                                                            <div class="mb-3">
+                                                                <p><strong>Website:</strong><a
+                                                                        href="<%=museumInfo[0].website%>"
+                                                                        target="_blank" class="pe-auto">
+                                                                        <%=museumInfo[0].website%>
+                                                                    </a></p>
+                                                            </div>
+                                                            <% } %>
+                                                    </div>
 
-                                                <div class="modal-footer bg-light">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
+                                                    <div class="modal-footer bg-light">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <% }) %>
+                                    </div>
+                                    <% }) %>
                     </div>
         </div>
         <% } %>
