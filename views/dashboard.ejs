@@ -3,10 +3,10 @@
     <!-- Read -->
     <section id="myMemberships" class="pt-5 pb-3 p-lg-5 pt-lg-5 text-center text-sm-start bg-light">
 
-        <div class="container">
+        <div class="container text-center">
             <h2>My Memberships</h2>
         </div>
-        <div class="container">
+        <div class="container" style="max-width: 700px;">
             <% if (memberships.length==0) { %>
                 <p>You haven't added any memberships. Checkout our <a href="#showNearby">nearby</a> feature
                     to see museums near you or <a href="addAMembership">add a membership</a>!</p>
@@ -14,7 +14,7 @@
                     <div class="card-deck">
                         <% memberships.forEach( membership=> { %>
                             <% console.log(membership) %>
-                                <div class="card p-3">
+                                <div class="card p-3 m-2" style="min-width:250px">
                                     <div class="card-top">
                                         <h3 class="card-title">
                                             <%=membership.museumName%>
@@ -40,6 +40,20 @@
                                             </strong>
                                         </p>
                                     </div>
+                                    <div class="card-footer d-flex justify-content-between bg-white">
+                                        <button class="btn btn-primary btn-large shadow voltaire"
+                                            data-bs-toggle="modal<%=membership.place_id%>"
+                                            data-bs-target="#museumDetails<%=membership.place_id%>">Museum
+                                            Details</button>
+                                        <a href="#" class="btn btn-primary btn-large shadow voltaire">Edit
+                                            Membership</a>
+                                    </div>
+                                </div>
+
+                                <!-- Modal for Museum Details Button -->
+                                <div class="modal fade" id="museumDetails<%=membership.place_id%>" tabindex="-1"
+                                    aria-hidden="true">
+
                                 </div>
                                 <% }) %>
 
@@ -135,8 +149,9 @@
     <!-- Nearby Museum Recommendations -->
     <section id="showNearby" class="pt-5 pb-3 bg-light">
         <div class="container">
-            <h2>Neaby Museums & Cutltural Institutions</h2>
+            <h2>Neaby Museums & Cultural Institutions</h2>
             <p>Looking for something new? Here are some places to checkout near you:</p>
+            <p><strong>This feature is coming soon!</strong></p>
         </div>
 
         <div class="container">
