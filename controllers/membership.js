@@ -5,19 +5,22 @@ const axios = require('axios');
 module.exports = {
     // need to add to that membership id loop - call museum collection with the placeid to get details to send with the request
     getMemberships: async (req, res) => {
-        console.log(req.user)
         try {
             let currentDate = new Date()
             let oneMonth = new Date()
             oneMonth = oneMonth.setMonth(oneMonth.getMonth() + 1)
             
             const membershipCards = await Membership.find({ userId: req.user.id })
+            const museum_ids = membershipCards.map(items => items.place_id)
+
+            const museums = await Museum.find({ place_id: museum_ids })
+            
             membershipCards.forEach(card => {
                 card.expired = (new Date(card.expirationDate).getTime() < currentDate.getTime()) ? true : false;
                 card.expiringSoon = (new Date(card.expirationDate).getTime() < new Date(oneMonth).getTime()) ? true : false;
             })
             
-            res.render('dashboard.ejs', { memberships: membershipCards })
+            res.render('dashboard.ejs', { memberships: membershipCards, museums: museums })
         } catch (err) {
             console.log(err)
         }

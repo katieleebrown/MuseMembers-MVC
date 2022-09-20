@@ -13,49 +13,101 @@
                 <% } else { %>
                     <div class="card-deck">
                         <% memberships.forEach( membership=> { %>
-                            <% console.log(membership) %>
-                                <div class="card p-3 m-2" style="min-width:250px">
-                                    <div class="card-top">
-                                        <h3 class="card-title">
-                                            <%=membership.museumName%>
-                                        </h3>
-                                        <% if(membership.expired) { %>
-                                            <p class="card-subtitle px-3"><i class="fa-solid fa-circle-exclamation"></i>
-                                                Membership
-                                                expired</p>
-                                            <% } else if (membership.expiringSoon){ %>
+                            <% let placeId=membership.place_id %>
+                                <% let museumInfo=museums.filter(museum=> museum.place_id == placeId) %>
+                                    <div class="card p-3 m-2" style="min-width:250px">
+                                        <div class="card-top">
+                                            <h3 class="card-title">
+                                                <%=membership.museumName%>
+                                            </h3>
+                                            <% if(membership.expired) { %>
                                                 <p class="card-subtitle px-3"><i
-                                                        class="fa-solid fa-circle-exclamation primary"></i>
+                                                        class="fa-solid fa-circle-exclamation"></i>
                                                     Membership
-                                                    expiring soon</p>
-                                                <% } %>
+                                                    expired</p>
+                                                <% } else if (membership.expiringSoon){ %>
+                                                    <p class="card-subtitle px-3"><i
+                                                            class="fa-solid fa-circle-exclamation primary"></i>
+                                                        Membership
+                                                        expiring soon</p>
+                                                    <% } %>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">Expires: <strong>
+                                                    <%=membership.expirationDate%>
+                                                </strong>
+                                            </p>
+                                            <p class="card-text">Max Guests: <strong>
+                                                    <%=membership.maxGuests%>
+                                                </strong>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-between bg-white">
+                                            <button class="btn btn-primary btn-large shadow voltaire"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#museumDetails<%=membership.place_id%>">Museum
+                                                Details</button>
+                                            <a href="#" class="btn btn-primary btn-large shadow voltaire">Edit
+                                                Membership</a>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Expires: <strong>
-                                                <%=membership.expirationDate%>
-                                            </strong>
-                                        </p>
-                                        <p class="card-text">Max Guests: <strong>
-                                                <%=membership.maxGuests%>
-                                            </strong>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer d-flex justify-content-between bg-white">
-                                        <button class="btn btn-primary btn-large shadow voltaire"
-                                            data-bs-toggle="modal<%=membership.place_id%>"
-                                            data-bs-target="#museumDetails<%=membership.place_id%>">Museum
-                                            Details</button>
-                                        <a href="#" class="btn btn-primary btn-large shadow voltaire">Edit
-                                            Membership</a>
-                                    </div>
-                                </div>
 
-                                <!-- Modal for Museum Details Button -->
-                                <div class="modal fade" id="museumDetails<%=membership.place_id%>" tabindex="-1"
-                                    aria-hidden="true">
+                                    <!-- Modal for Museum Details Button -->
+                                    <% JSON.stringify(museumInfo) %>
+                                        <% console.log(museumInfo[0].hours) %>
+                                            <div class="modal fade" id="museumDetails<%=membership.place_id%>"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                <%= museumInfo[0].museumName %>
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-body bg-light">
+                                                        <div class="mb-3">
+                                                            <p>
+                                                                <strong>Address:</strong>
+                                                                <%=museumInfo[0].formatted_address %>
+                                                            </p>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <p>
+                                                                <strong>Phone:</strong>
+                                                                <%=museumInfo[0].phone_number %>
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p><strong>Hours:</strong></p>
+                                                            <div class="container">
+                                                                <% for(let i=0; i < museumInfo[0].hours.length; i++) {
+                                                                    %>
+                                                                    <p>
+                                                                        <%=museumInfo[0].hours[i]%>
+                                                                    </p>
+                                                                    <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <% if (museumInfo[0].website.length !=0) { %>
+                                                            <div class="mb-3">
+                                                                <p><strong>Website:</strong><a
+                                                                        href="<%=museumInfo.website%>" target="_blank">
+                                                                        <%=museumInfo[0].website%>
+                                                                    </a></p>
+                                                            </div>
+                                                            <% } %>
+                                                    </div>
 
-                                </div>
-                                <% }) %>
+                                                    <div class="modal-footer bg-light">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
 
                     </div>
                     <% } %>
