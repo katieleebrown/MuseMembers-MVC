@@ -13,7 +13,8 @@
                 <% } else { %>
                     <div class="card-deck">
                         <% memberships.forEach( membership=> { %>
-                            <% console.log(membership) %>
+                            <% let placeId = membership.place_id %>
+                            <% let museumInfo = museums.filter(museum => museum.place_id == placeId) %>
                                 <div class="card p-3">
                                     <div class="card-top">
                                         <h3 class="card-title">
