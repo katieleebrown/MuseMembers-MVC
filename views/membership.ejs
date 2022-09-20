@@ -1,0 +1,41 @@
+<%- include('partials/loginHeader') -%>
+    <section id="membershipDetails" class="mt-3">
+        <div class="col-sm-6 col-lg-4">
+            <div class="card p-3 mx-auto my-2" style="max-width: 400px;">
+                <div class="card-top border-bottom">
+                    <h3 class="card-title">
+                        <%=membership.museumName%>
+                    </h3>
+                    <% if(membership.expired) { %>
+                        <p class="card-subtitle px-3"><i class="fa-solid fa-circle-exclamation"></i>
+                            Membership
+                            expired</p>
+                        <% } else if (membership.expiringSoon){ %>
+                            <p class="card-subtitle px-3"><i class="fa-solid fa-circle-exclamation primary"></i>
+                                Membership
+                                expiring soon</p>
+                            <% } %>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Expires: <strong>
+                            <%=membership.expirationDate%>
+                        </strong>
+                    </p>
+                    <p class="card-text">Max Guests: <strong>
+                            <%=membership.maxGuests%>
+                        </strong>
+                    </p>
+                </div>
+                <div class="card-footer d-flex justify-content-between bg-white">
+                    <button class="btn btn-primary btn-large shadow voltaire"><i class="fa-solid fa-floppy-disk"></i>
+                        Save</button>
+                    <a href="/membership/deleteMembership/<%=membership._id%>"
+                        class="btn btn-primary btn-large shadow voltaire"><i class="fa-solid fa-trash"></i>
+                        Delete</a>
+                </div>
+            </div>
+        </div>
+        <a href="/membership" class="btn btn-primary btn-large shadow voltaire m-5">Back to Dashboard</a>
+    </section>
+
+    <%- include('partials/footer') -%>

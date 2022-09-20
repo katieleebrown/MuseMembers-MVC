@@ -5,9 +5,11 @@ const { ensureAuth } = require('../middleware/auth')
 
 router.get('/', ensureAuth, membershipController.getMemberships)
 
+router.get("/seeMembership/:id", membershipController.getOneMembership)
+
 router.post('/createMembership', membershipController.createMembership)
 
-router.delete('/deleteMembership', membershipController.deleteMembership)
+router.delete('/deleteMembership/:id', membershipController.deleteMembership)
 
 module.exports = router
 

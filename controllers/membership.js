@@ -9,17 +9,17 @@ module.exports = {
             let currentDate = new Date()
             let oneMonth = new Date()
             oneMonth = oneMonth.setMonth(oneMonth.getMonth() + 1)
-            
+
             const membershipCards = await Membership.find({ userId: req.user.id })
             const museum_ids = membershipCards.map(items => items.place_id)
 
             const museums = await Museum.find({ place_id: museum_ids })
-            
+
             membershipCards.forEach(card => {
                 card.expired = (new Date(card.expirationDate).getTime() < currentDate.getTime()) ? true : false;
                 card.expiringSoon = (new Date(card.expirationDate).getTime() < new Date(oneMonth).getTime()) ? true : false;
             })
-            
+
             res.render('dashboard.ejs', { memberships: membershipCards, museums: museums })
         } catch (err) {
             console.log(err)
@@ -72,12 +72,20 @@ module.exports = {
             console.log(err)
         }
     },
-    deleteMembership: async (req, res) => {
-        console.log(req.body.membershipIdFromJSFile)
+    getOneMembership: async (req, res) => {
         try {
-            await Todo.findOneAndDelete({ _id: req.body.membershipIdFromJSFile })
+            const membership = await Membership.findById(req.params.id);
+            res.render("membership.ejs", { membership: membership, user: req.user });
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    deleteMembership: async (req, res) => {
+        try {
+            await Membership.findOneAndDelete({ _id: req.params.id })
             console.log('Deleted Membership')
             res.json('Deleted It')
+            res.redirect("/membership")
         } catch (err) {
             console.log(err)
         }
