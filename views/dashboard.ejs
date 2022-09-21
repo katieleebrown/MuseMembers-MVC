@@ -1,0 +1,217 @@
+<%- include('partials/loginHeader') -%>
+
+    <!-- Read -->
+    <section id="myMemberships" class="pt-5 pb-3 p-lg-5 pt-lg-5 text-center text-sm-start bg-light">
+
+        <div class="container text-center">
+            <h2>My Memberships</h2>
+        </div>
+        <div class="container">
+            <% if (memberships.length==0) { %>
+                <p>You haven't added any memberships. Checkout our <a href="#showNearby">nearby</a> feature
+                    to see museums near you or <a href="#addAMembership">add a membership</a>!</p>
+                <% } else { %>
+                    <div class="card-group">
+                        <% memberships.forEach( membership=> { %>
+                            <% let placeId=membership.place_id %>
+                                <% let museumInfo=museums.filter(museum=> museum.place_id == placeId) %>
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="card p-3 mx-auto my-2" style="max-width: 400px;">
+                                            <div class="card-top border-bottom">
+                                                <h3 class="card-title">
+                                                    <%=membership.museumName%>
+                                                </h3>
+                                                <% if(membership.expired) { %>
+                                                    <p class="card-subtitle px-3"><i
+                                                            class="fa-solid fa-circle-exclamation"></i>
+                                                        Membership
+                                                        expired</p>
+                                                    <% } else if (membership.expiringSoon){ %>
+                                                        <p class="card-subtitle px-3"><i
+                                                                class="fa-solid fa-circle-exclamation primary"></i>
+                                                            Membership
+                                                            expiring soon</p>
+                                                        <% } %>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text">Expires: <strong>
+                                                        <%=membership.expirationDate%>
+                                                    </strong>
+                                                </p>
+                                                <p class="card-text">Max Guests: <strong>
+                                                        <%=membership.maxGuests%>
+                                                    </strong>
+                                                </p>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-between bg-white">
+                                                <button class="btn btn-primary btn-large shadow voltaire"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#museumDetails<%=membership.place_id%>">See
+                                                    More</button>
+                                                <a href="/membership/seeMembership/<%=membership._id%>"
+                                                    class="btn btn-primary btn-large shadow voltaire">Edit</a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal for Museum Details Button -->
+                                        <% JSON.stringify(museumInfo) %>
+                                            <div class="modal fade" id="museumDetails<%=membership.place_id%>"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog">
+
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                <%= museumInfo[0].museumName %>
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+
+                                                        <div class="modal-body bg-light">
+                                                            <div class="mb-3">
+                                                                <p>
+                                                                    <strong>Address:</strong>
+                                                                    <%=museumInfo[0].formatted_address %>
+                                                                </p>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <p>
+                                                                    <strong>Phone:</strong>
+                                                                    <%=museumInfo[0].phone_number %>
+                                                                </p>
+                                                            </div>
+                                                            <div>
+                                                                <p><strong>Hours:</strong></p>
+                                                                <div class="container">
+                                                                    <% for(let i=0; i < museumInfo[0].hours.length; i++)
+                                                                        { %>
+                                                                        <p>
+                                                                            <%=museumInfo[0].hours[i]%>
+                                                                        </p>
+                                                                        <% } %>
+                                                                </div>
+                                                            </div>
+                                                            <% if (museumInfo[0].website.length !=0) { %>
+                                                                <div class="mb-3">
+                                                                    <p><strong>Website:</strong><a
+                                                                            href="<%=museumInfo[0].website%>"
+                                                                            target="_blank" class="pe-auto">
+                                                                            <%=museumInfo[0].website%>
+                                                                        </a></p>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+
+                                                        <div class="modal-footer bg-light">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <% }) %>
+                    </div>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Create/Add Memberships -->
+    <section id="addAMembership" class="m-3">
+        <div class="container">
+            <h2>Add a Membership</h2>
+        </div>
+
+        <form action="/membership/createMembership" method='POST'>
+            <div class="container form-group">
+                <label for="chooseMuseum">Choose Your Museum:</label>
+                <select id="chooseMuseum" class="form-select bg-light" name="chooseMuseum" required>
+                    <option value=""></option>
+                    <option value="Cary Childrens Museum">Cary Children's Museum</option>
+                    <option value="City Of Oaks Historical Center">City of Oaks Historical Center</option>
+                    <option value="Museum Of Climate Sciences">Museum of Climate Sciences</option>
+                    <option value="NC Farm Park and Zoo">NC Farm Park and Zoo</option>
+                    <option value="other">Other</option>
+                </select>
+                <small>If you'd like to add a membership for a non-partner organization, choose
+                    'Other'.</small>
+            </div>
+
+            <!-- This should pop up on selection of 'other' on chooseMuseum dropdown -->
+            <div id="organizationSearch" class="container mb-4 hidden">
+                <label for="orgName">Search for Your Organization:</label>
+                <div class="input-group">
+                    <input type="text" name="orgName" id="orgNameInput" class="form-control bg-light p-3"
+                        placeholder="Organization Name">
+                    <a id="searchMap" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></a>
+                </div>
+            </div>
+
+            <!-- This should pop up on click of 'orgName'button, populated with info from API call-->
+            <div id="selectedOrgInfoForm" class="container hidden">
+                <div class="d-md-flex justify-content-center align-items-center row g4">
+                    <div id="mapContainer" class="col-sm-6 col-lg-6 my-2">
+                        <div class="card bg-white">
+                            <div class="card-body text-center">
+                                <div id="map" class=""></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6 my-2">
+                        <div class="card bg-white">
+                            <div class="card-body text-center">
+                                <h3 id="displayOrgNameForm" class="card-title mb-3">Organization Name</h3>
+                                <p id="displayOrgAddressForm" class="card-subtitle m-2">Here is the address</p>
+                                <small id="museumSearchTag">Is this your museum? If not, try a new name in
+                                    the search bar
+                                    above.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="form-row container">
+                <div class="container form-group col-sm-6">
+                    <label for="maxGuests">Maximum Number of Guests:</label>
+                    <input type="number" id="maxGuests" name="maxGuests" class="form-control bg-light" placeholder="0"
+                        min="0" max="12" required>
+                </div>
+
+                <div class="container form-group col-sm-6">
+                    <label for="expiration">Expiration Date:</label>
+                    <input type="date" id="expiration" name="expiration" class="form-control bg-light">
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                <input type="text" id="place_id" name="place_id" class="form-control hidden">
+            </div>
+
+            <div class="form-group hidden">
+                <input type="text" id="otherOrgName" name="otherOrgName" class="form-control hidden">
+            </div>
+
+            <div class="container text-center">
+                <input id="addMembershipBtn" type="submit" class="btn btn-primary btn-lg shadow voltaire my-2">
+            </div>
+        </form>
+    </section>
+
+    <!-- Nearby Museum Recommendations -->
+    <section id="showNearby" class="pt-5 pb-3 bg-light">
+        <div class="container">
+            <h2>Neaby Museums & Cultural Institutions</h2>
+            <p>Looking for something new? Here are some places to checkout near you:</p>
+            <p><strong>This feature is coming soon!</strong></p>
+        </div>
+
+        <div class="container">
+
+        </div>
+    </section>
+
+    <%- include('partials/footer') -%>

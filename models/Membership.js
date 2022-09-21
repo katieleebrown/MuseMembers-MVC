@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const TodoSchema = new mongoose.Schema({
+const MembershipSchema = new mongoose.Schema({
   museumName: {
     type: String,
     required: true,
@@ -15,7 +15,10 @@ const TodoSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true
+  },
+  place_id: {
+    type: String,
   }
 })
 
-module.exports = mongoose.model('Todo', TodoSchema)
+module.exports = mongoose.model('Membership', MembershipSchema)
