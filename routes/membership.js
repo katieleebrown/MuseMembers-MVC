@@ -5,9 +5,11 @@ const { ensureAuth } = require('../middleware/auth')
 
 router.get('/', ensureAuth, membershipController.getMemberships)
 
+router.post('/createMembership', membershipController.createMembership)
+
 router.get("/seeMembership/:id", membershipController.getOneMembership)
 
-router.post('/createMembership', membershipController.createMembership)
+router.put('/updateMembership/:id', membershipController.updateMembership)
 
 router.get('/deleteMembership/:id', membershipController.deleteMembership)
 

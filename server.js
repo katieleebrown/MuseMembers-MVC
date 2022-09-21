@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const passport = require('passport')
+const methodOverride = require('method-override')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const flash = require('express-flash')
@@ -16,6 +17,9 @@ require('dotenv').config({ path: './config/.env' })
 require('./config/passport')(passport)
 
 connectDB()
+
+// Method override
+app.use(methodOverride('_method'))
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))

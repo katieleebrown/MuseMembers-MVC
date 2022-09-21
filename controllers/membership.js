@@ -58,11 +58,13 @@ module.exports = {
         }
 
         // Create Membership Document
+        // Format date correctly to be parsed by new Date()
+        let dateFormat = (req.body.expiration).split('-').join('/')
         try {
             await Membership.create({
                 museumName: req.body.chooseMuseum,
                 maxGuests: req.body.maxGuests,
-                expirationDate: new Date(req.body.expiration).toDateString(),
+                expirationDate: new Date(dateFormat).toDateString(),
                 userId: req.user.id,
                 place_id: req.body.place_id
             })
@@ -76,6 +78,21 @@ module.exports = {
         try {
             const membership = await Membership.findById(req.params.id);
             res.render("membership.ejs", { membership: membership, user: req.user });
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    updateMembership: async (req, res) => {
+        let dateFormat = (req.body.expiration).split('-').join('/')
+        try {
+            await Membership.findOneAndUpdate({ _id: req.params.id }, {
+                expirationDate: new Date(dateFormat).toDateString(),
+                maxGuests: req.body.maxGuests,
+            }, {
+                new: true,
+                runValidators: true
+            })
+            res.redirect('/membership')
         } catch (err) {
             console.log(err);
         }
