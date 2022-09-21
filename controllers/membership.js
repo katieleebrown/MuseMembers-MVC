@@ -84,7 +84,6 @@ module.exports = {
         try {
             await Membership.findOneAndDelete({ _id: req.params.id })
             console.log('Deleted Membership')
-            res.json('Deleted It')
             res.redirect("/membership")
         } catch (err) {
             console.log(err)

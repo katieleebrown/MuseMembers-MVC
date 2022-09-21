@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const MuseumSchema = new mongoose.Schema({
     museumName: {
         type: String,
-        required: true,
     },
     place_id: {
         type: String,

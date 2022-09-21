@@ -9,7 +9,7 @@ router.get("/seeMembership/:id", membershipController.getOneMembership)
 
 router.post('/createMembership', membershipController.createMembership)
 
-router.delete('/deleteMembership/:id', membershipController.deleteMembership)
+router.get('/deleteMembership/:id', membershipController.deleteMembership)
 
 module.exports = router
 
