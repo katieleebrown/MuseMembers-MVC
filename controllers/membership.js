@@ -1,3 +1,4 @@
+const cloudinary = require("../middleware/cloudinary");
 const Membership = require('../models/Membership');
 const Museum = require('../models/Museum');
 const axios = require('axios');
@@ -36,21 +37,29 @@ module.exports = {
             headers: {}
         };
 
+        const existingMuseum = await Museum.findOne({ place_id: selectedPlace_id })
+
         // Create Museum Document
         if (selectedPlace_id != '01' && selectedPlace_id != '02' && selectedPlace_id != '03' && selectedPlace_id != '04') {
             await axios(config)
                 .then(function (response) {
                     JSON.stringify(response.data)
+                    console.log(response.data)
 
-                    Museum.create({
-                        museumName: response.data.result.name,
-                        place_id: selectedPlace_id,
-                        phone_number: response.data.result.formatted_phone_number,
-                        formatted_address: response.data.result.formatted_address,
-                        hours: response.data.result.opening_hours.weekday_text,
-                        website: response.data.result.website,
-                    }, { upsert: true })
-                    console.log('A new museum has been added or updated.')
+                    if (!existingMuseum) {
+                        Museum.create({
+                            museumName: req.body.chooseMuseum,
+                            place_id: selectedPlace_id,
+                            phone_number: response.data.result.formatted_phone_number,
+                            formatted_address: response.data.result.formatted_address,
+                            hours: response.data.result.opening_hours.weekday_text,
+                            website: response.data.result.website,
+                        })
+                        console.log('A new museum has been added.')
+                    } else {
+                        console.log('Museum already exists in db.')
+                    }
+
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -60,15 +69,22 @@ module.exports = {
         // Create Membership Document
         // Format date correctly to be parsed by new Date()
         let dateFormat = (req.body.expiration).split('-').join('/')
+
         try {
+            // Upload image to Cloudinary
+            // const result = await cloudinary.uploader.upload(req.file);
+
             await Membership.create({
                 museumName: req.body.chooseMuseum,
                 maxGuests: req.body.maxGuests,
                 expirationDate: new Date(dateFormat).toDateString(),
                 userId: req.user.id,
-                place_id: req.body.place_id
+                place_id: req.body.place_id,
+                notes: req.body.notes,
+                // image: result.secure_url,
+                // cloudinaryId: result.public_id,
             })
-            console.log('Membership has been added!')
+            console.log('Membership has been added.')
             res.redirect('/membership')
         } catch (err) {
             console.log(err)

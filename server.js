@@ -21,10 +21,17 @@ connectDB()
 // Method override
 app.use(methodOverride('_method'))
 
+// EJS for Views
 app.set('view engine', 'ejs')
+
+// Static Folder
 app.use(express.static('public'))
+
+// Body Parsing
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+// Logging
 app.use(logger('dev'))
 
 // Sessions
@@ -41,11 +48,14 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
+// Use flash messages for errors, info, etc.
 app.use(flash())
 
+// Setup routes
 app.use('/', mainRoutes)
 app.use('/membership', membershipRoutes)
 
+// Server running
 app.listen(process.env.PORT, () => {
   console.log('Server is running, you better catch it!')
 })    

@@ -18,6 +18,15 @@ const MembershipSchema = new mongoose.Schema({
   },
   place_id: {
     type: String,
+  },
+  // image: {
+  //   type: String,
+  // },
+  // cloudinaryId: {
+  //   type: String,
+  // },
+  notes: {
+    type: String
   }
 })
 

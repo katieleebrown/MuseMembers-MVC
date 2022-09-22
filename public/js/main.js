@@ -1,7 +1,4 @@
-// const { deleteMembership } = require("../../controllers/membership")
-
 // Variables
-const deleteBtn = document.querySelectorAll('.del')
 const orgSearch = document.getElementById('organizationSearch')
 const pickMuseumList = document.getElementById('chooseMuseum')
 const orgNameForm = document.getElementById('displayOrgNameForm')
@@ -11,32 +8,13 @@ const orgDetailsForm = document.getElementById('selectedOrgInfoForm')
 const mapContainer = document.getElementById('mapContainer')
 const mapSearch = document.querySelector('#searchMap')
 
-
 // Event Listeners
-Array.from(deleteBtn).forEach((el) => {
-    el.addEventListener('click', deleteMembership)
-})
-pickMuseumList.addEventListener('click', displaySearch)
-mapSearch.addEventListener('click', showMapDetails)
-
-// Delete Membership Function
-// async function deleteMembership() {
-//     const MembershipId = this.parentNode.dataset.id
-//     try {
-//         const response = await fetch('membership/deleteMembership', {
-//             method: 'delete',
-//             headers: { 'Content-type': 'application/json' },
-//             body: JSON.stringify({
-//                 'membershipIdFromJSFile': MembershipId
-//             })
-//         })
-//         const data = await response.json()
-//         console.log(data)
-//         location.reload()
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+if (pickMuseumList) {
+    pickMuseumList.addEventListener('click', displaySearch)
+}
+if (mapSearch) {
+    mapSearch.addEventListener('click', showMapDetails)
+}
 
 // Display Organization Search or Update Display for Partner Museum
 function displaySearch() {
@@ -151,6 +129,7 @@ function initMap() {
     });
 }
 
+// Google maps - update marker when moved
 function createMarker(place) {
     if (!place.geometry || !place.geometry.location)
         return;

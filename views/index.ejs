@@ -2,38 +2,34 @@
     <%- include('partials/header') -%>
 
         <!-- Showcase -->
-        <section class="p-5 p-lg-5 pt-lg-5 text-center text-sm-start">
-            <div class="container">
+        <section class=" p-lg-5 pt-lg-5 text-center text-sm-start">
+            <div class="container p-5">
                 <div class="d-sm-flex align-items-center justify-content-between">
                     <div>
                         <h1 class="display-3">Your museum memberships, at your fingertips</h1>
-                        <p class="lead my-4">Looking for a quick and easy way to keep all of your Museum memberships in
-                            one
-                            place? Feel like your wallet is overflowing? MuseMembers is here to help. We're an
-                            accessible,
-                            easy to use web app that houses all of your membership information in one place to help you
-                            access anywhere, anytime.
-
-                        </p>
-                        <p class="lead my-4">If your museum or organization is a current partner, you're in luck!
-                            MuseMembers works with your cultural institution to give you access to your
-                            membership - and it's benefits - no matter where you are. Are you looking to get more out of
-                            your membership? Tell your team about MuseMembers today!</p>
-                        <button class="btn btn-primary btn-lg shadow voltaire" data-bs-toggle="modal"
-                            data-bs-target="#enroll">Register</button>
+                        <p class="my-4">MuseMembers is a free membership tracking web app - upload all of your
+                            membership information into one system and access it anytime, anywhere. We give you alerts
+                            when it's time to renew your memberships as well as access to hours, address, contact info
+                            for any organization, not just our partners. MuseMembers also gives you recommendations on
+                            nearby museums and cultural institutions you should visit. Whether you're planning your
+                            weekend, day off, or night out, MuseMembers is here to help you out.</p>
+                        <p class="my-4">If you have memberships with one of our partner organizations, you get more
+                            from MuseMembers at no cost to you! See announcements from your museums with important
+                            information like upcoming events, changes in hours, and new exhibits. </p>
+                        <a href="/signup" class="btn btn-primary btn-lg shadow voltaire">Register</a>
                     </div>
-                    <img class="img-fluid w-50 d-none d-sm-block" src="/images/womanAndArt.svg" alt="">
+                    <img class="img-fluid w-50 d-none d-sm-block p-4" src="/images/womanAndArt.svg" alt="">
                 </div>
             </div>
         </section>
 
         <!-- Newsletter -->
-        <section class="bg-dark p-5 text-primary">
+        <section id="newsletter" class="bg-primary p-5">
             <div class="container">
                 <div class="d-md-flex justify-content-between align-items-center">
                     <h3 class="mb-3 mb-md-0">Sign Up For Our Newsletter</h3>
 
-                    <div class="input-group news-input">
+                    <div class="input-group news-input shadow">
                         <input type="text" class="form-control p-4" placeholder="Enter Email">
                         <button class="btn btn-primary btn-lg voltaire" type="button">Submit</button>
                     </div>
@@ -43,7 +39,80 @@
 
         <!-- Question Accordion -->
         <section id="questions" class="p-5">
+            <h3 class="text-center pb-4">Frequently Asked Questions</h3>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            How much does MuseMembers cost?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>MuseMembers is free for users!</strong> We give you the ability to upload, track,
+                            and update your memberships at no cost to you. We do have paid plans for museums, cultural
+                            institutions and other organizations to provide extra benefits to their members through our
+                            site.
+                        </div>
+                    </div>
+                </div>
 
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            My membership card has a barcode to be scanned on entry, can you help with that?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            We sure can! Along with uploading some basic data about your membership (the
+                            organization name, expiration date, and number of guests), you can also upload a photo
+                            of your membership that you can show upon entry to your organization to be scanned.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            What benefits do I get if have a membership with a partner museum?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            If you have a membership with a partner museum/organization, you will get access to
+                            announcements from your museum to keep you in the know. Many organizations share early
+                            access to big ticket events, additional hours for members, and membership renewal discounts.
+                            We also update your organization when your personal data (like your address) changes, to
+                            save you that extra step of updating with your museum.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            How does your museum recommendation feature work?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            MuseMembers uses a combination of your existing membership data (like what type of
+                            organization you tend to hold memberships with) and your location to recommend new spots to
+                            check out. Our hope is to be a one-stop shop when you're planning your weekend, and to give
+                            you access to everything you need in one place.
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </section>
 
