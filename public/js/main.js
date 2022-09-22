@@ -95,6 +95,9 @@ function showMapDetails() {
     });
 }
 
+// Google Maps - Nearby Museums Recommendations
+
+
 // Google Map Map on Load Feature - not currently in use
 function initMap() {
     console.log('map is loading');
