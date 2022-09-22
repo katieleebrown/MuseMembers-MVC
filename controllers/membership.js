@@ -2,26 +2,50 @@ const cloudinary = require("../middleware/cloudinary");
 const Membership = require('../models/Membership');
 const Museum = require('../models/Museum');
 const axios = require('axios');
+const User = require("../models/User")
 
 module.exports = {
     // need to add to that membership id loop - call museum collection with the placeid to get details to send with the request
     getMemberships: async (req, res) => {
         try {
+            // get date info for expiration badges
             let currentDate = new Date()
             let oneMonth = new Date()
             oneMonth = oneMonth.setMonth(oneMonth.getMonth() + 1)
 
+            // find memberships for logged in user, then museums for those memberships
             const membershipCards = await Membership.find({ userId: req.user.id })
             const museum_ids = membershipCards.map(items => items.place_id)
-
             const museums = await Museum.find({ place_id: museum_ids })
 
+            // update data sent for each membership to include expiration status
             membershipCards.forEach(card => {
                 card.expired = (new Date(card.expirationDate).getTime() < currentDate.getTime()) ? true : false;
                 card.expiringSoon = (new Date(card.expirationDate).getTime() < new Date(oneMonth).getTime()) ? true : false;
             })
 
-            res.render('dashboard.ejs', { memberships: membershipCards, museums: museums })
+            // get user info for nearby museum recommendations
+            const user = await User.find({ _id: req.user.id })
+            const addressStr = `${user[0].address}, ${user[0].city}, ${user[0].state} ${user[0].zipcode}`
+
+            // use address string to get lat/long from Position Stack for Google Recommendations
+            let userLatitude = 0;
+            let userLongitude = 0;
+            if (user[0].address.length > 0) {
+                let url = `http://api.positionstack.com/v1/forward?access_key=${process.env.POSITION_STACK_ACCESS_KEY}&query=${addressStr}&limit=1`
+
+                await fetch(url)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        userLatitude = data.data[0].latitude
+                        userLongitude = data.data[0].longitude
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }
+
+            res.render('dashboard.ejs', { memberships: membershipCards, museums: museums, userLatitude: userLatitude, userLongitude: userLongitude })
         } catch (err) {
             console.log(err)
         }
@@ -91,8 +115,18 @@ module.exports = {
         }
     },
     getOneMembership: async (req, res) => {
+        // get date info for expiration badges
+        let currentDate = new Date()
+        let oneMonth = new Date()
+        oneMonth = oneMonth.setMonth(oneMonth.getMonth() + 1)
+
         try {
             const membership = await Membership.findById(req.params.id);
+
+            // update data sent for membership to include expiration status
+            membership.expired = (new Date(membership.expirationDate).getTime() < currentDate.getTime()) ? true : false;
+            membership.expiringSoon = (new Date(membership.expirationDate).getTime() < new Date(oneMonth).getTime()) ? true : false;
+
             res.render("membership.ejs", { membership: membership, user: req.user });
         } catch (err) {
             console.log(err);
