@@ -9,7 +9,7 @@ Tech Used : Javascript, Node.js, Express, MongoDB, Mongoose, Bootstrap, HTML, CS
 
 At it's core, this web app is a membership database. It stores user information, links that user to their various memberships, and allows them to add, update, and remove as they need. This full-stack app took well over 100 hours (and counting) to build, with new features in the works. 
 
-This app also relies on a few Google APIs (mostly Find Places and Places Details) to pull data on non-partner museums so users don't have to fill out long, lengthy forms each time they upload a new membership.
+This app also relies on a few Google APIs (mostly Find Places and Places Details) to pull data on non-partner museums so users don't have to fill out long, lengthy forms each time they upload a new membership. MuseMembers also connects with the positionstack API to assist with geolocation and the nearby museums recommendation feature.
 
 # Optimizations
 In the future, I would love to start using all of the collected member information to make recommendations to our users. Ideally, the system would look at other users with at least 2 membership organizations in common with the user, and then recommend other museums or cultural institutions to check out based on that data. This would be a great add for our "Nearby Institutions" section, and would hopefully help connect our users with more exciting places.
