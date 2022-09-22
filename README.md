@@ -26,7 +26,7 @@ Stay tuned! This project is still underway, and LOTS of lessons are being learne
 
 # Want to try MuseMembers locally?
 
-- `npm i types/googlemaps bcrypt bootstrap connect-mongo dotenv ejs esbuild express express-flash express-session function-bind has is-core-module mongodb mongoose morgan nanoid nodemon passport passport-local path-parse picocolors postcss validator`
+- `npm i types/googlemaps axios bcrypt bootstrap cloudinary connect-mongo dotenv ejs esbuild express express-flash express-session function-bind has is-core-module method-override mongodb mongoose morgan multer nanoid nodemon npm-run-all passport passport-local path path-parse picocolors postcss resolve rimraf rollup validator vite`
 
 - Create a `.env` file and add the following as `key: value` 
   - PORT: 8000 (can be any port example: 3000) 
