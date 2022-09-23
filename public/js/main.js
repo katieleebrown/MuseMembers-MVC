@@ -153,14 +153,14 @@ function addPlaces(places, map) {
 
             // Create card for this place
             const div = document.createElement('div')
-            div.className = 'card my-2 p-2'
+            div.className = 'card m-2 p-2 border-0 shadow'
             div.style = 'min-width: 300px;'
 
             const cardTop = document.createElement('div')
             cardTop.className = "card-top"
 
-            const nameHeader = document.createElement('h4')
-            nameHeader.className = "card-title"
+            const nameHeader = document.createElement('p')
+            nameHeader.className = "card-title lead"
             nameHeader.textContent = place.name
 
             cardTop.appendChild(nameHeader)
@@ -173,79 +173,3 @@ function addPlaces(places, map) {
         }
     })
 }
-
-    // function callback(results, status) {
-    //     if (status == google.maps.places.PlacesServiceStatus.OK) {
-    //         for (var i = 0; i < results.length; i++) {
-    //             createMarker(results[i]);
-    //         }
-    //     }
-    // }
-
-// Google Maps - Nearby Museums Recommendations
-// function loadNearby() {
-//     console.log('nearby museums now loading')
-
-//     // let axios = require('axios')
-//     let latitude = document.getElementById('userLatitude').innerText
-//     let longitude = document.getElementById('userLongitude').innerText
-//     let orgType = 'museum'
-//     let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&type=${orgType}&key=***REMOVED***`
-
-//     fetch(url)
-//         .then(result => JSON.stringify(result))
-//         .then((data => {
-//             console.log(data)
-//         }))
-//         .catch((error => {
-//             console.log(error)
-//         }))
-// }
-
-// Google Map Map on Load Feature - not currently in use
-// function initMap() {
-//     var raleigh = new google.maps.LatLng(35.7796, 78.6382);
-
-//     infowindow = new google.maps.InfoWindow();
-
-//     map = new google.maps.Map(document.getElementById("map"), {
-//         center: raleigh,
-//         zoom: 15,
-//     });
-
-//     var request = {
-//         query: "Museum of Natural Sciences",
-//         fields: ["name", "geometry", "place_id", "formatted_address"],
-//     };
-
-//     console.log('request places')
-
-//     service = new google.maps.places.PlacesService(map);
-
-//     service.findPlaceFromQuery(request, function (results, status) {
-//         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-//             for (var i = 0; i < results.length; i++) {
-//                 createMarker(results[i]);
-//                 console.log('marker created')
-//             }
-//             map.setCenter(results[0].geometry.location);
-//             console.log('center set')
-//         }
-//     });
-// }
-
-// // Google maps - update marker when moved
-// function createMarker(place) {
-//     if (!place.geometry || !place.geometry.location)
-//         return;
-//     var marker = new google.maps.Marker({
-//         map: map,
-//         position: place.geometry.location,
-//     });
-//     google.maps.event.addListener(marker, "click", function () {
-//         infowindow.setContent(place.name || "");
-//         infowindow.open(map);
-//     });
-// }
-
-// window.initMap = initMap
