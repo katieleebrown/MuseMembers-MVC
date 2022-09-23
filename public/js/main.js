@@ -118,8 +118,8 @@ function showNearby() {
 
     var request = {
         location: location,
-        radius: '30000',
-        type: ['park']
+        radius: 100000,
+        type: 'museum'
     };
 
     service = new google.maps.places.PlacesService(map);
