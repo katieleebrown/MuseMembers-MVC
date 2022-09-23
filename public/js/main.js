@@ -23,8 +23,6 @@ if (nearbyMap) {
     document.addEventListener('DOMContentLoaded', showNearby)
 }
 
-
-
 // Display Organization Search or Update Display for Partner Museum
 function displaySearch() {
     if (pickMuseumList.selectedIndex > 0) {
@@ -113,13 +111,13 @@ function showNearby() {
     // Creates the map
     map = new google.maps.Map(document.getElementById('nearbyMap'), {
         center: location,
-        zoom: 13
+        zoom: 11
     });
 
     var request = {
         location: location,
-        radius: 100000,
-        type: 'museum'
+        radius: 150000,
+        keyword: 'museum'
     };
 
     service = new google.maps.places.PlacesService(map);
@@ -136,6 +134,7 @@ function addPlaces(places, map) {
 
     places.forEach(place => {
         if (place.geometry && place.geometry.location) {
+            // creating google map icon
             const image = {
                 url: place.icon,
                 size: new google.maps.Size(71, 71),
@@ -144,6 +143,7 @@ function addPlaces(places, map) {
                 scaledSize: new google.maps.Size(25, 25),
             }
 
+            // placing google maps icon
             new google.maps.Marker({
                 map,
                 icon: image,
@@ -151,12 +151,23 @@ function addPlaces(places, map) {
                 position: place.geometry.location,
             })
 
-            // Create li
-            const li = document.createElement('li')
+            // Create card for this place
+            const div = document.createElement('div')
+            div.className = 'card my-2 p-2'
+            div.style = 'min-width: 300px;'
 
-            li.textContent = place.name
-            placesList.appendChild(li)
-            li.addEventListener('click', () => {
+            const cardTop = document.createElement('div')
+            cardTop.className = "card-top"
+
+            const nameHeader = document.createElement('h4')
+            nameHeader.className = "card-title"
+            nameHeader.textContent = place.name
+
+            cardTop.appendChild(nameHeader)
+            div.appendChild(cardTop)
+
+            placesList.appendChild(div)
+            div.addEventListener('click', () => {
                 map.setCenter(place.geometry.location)
             })
         }
