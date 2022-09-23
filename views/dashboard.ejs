@@ -1,14 +1,14 @@
 <%- include('partials/loginHeader') -%>
 
     <!-- Read -->
-    <section id="myMemberships" class="pt-5 pb-3 p-lg-5 pt-lg-5 text-center text-sm-start bg-light">
+    <section id="myMemberships" class="pt-5 pb-3 p-lg-5 pt-lg-5 text-center text-sm-start">
 
         <div class="container text-center">
-            <h2>My Memberships</h2>
+            <h2 class="">My Memberships</h2>
         </div>
         <div class="container">
             <% if (memberships.length==0) { %>
-                <p>You haven't added any memberships. Checkout our <a href="#showNearby">nearby</a> feature
+                <p>You haven't added any memberships. Checkout our <a href="/membership/nearby">nearby</a> feature
                     to see museums near you or <a href="#addAMembership">add a membership</a>!</p>
                 <% } else { %>
                     <div class="card-group">
@@ -16,109 +16,128 @@
                             <% let placeId=membership.place_id %>
                                 <% let museumInfo=museums.filter(museum=> museum.place_id == placeId) %>
                                     <div class="col-sm-6 col-lg-4">
-                                        <div class="card p-3 mx-auto my-2" style="max-width: 400px;">
-                                            <div class="card-top border-bottom">
-                                                <h3 class="card-title">
-                                                    <%=membership.museumName%>
-                                                </h3>
-                                                <% if(membership.expired) { %>
-                                                    <p class="card-subtitle px-3"><i
-                                                            class="fa-solid fa-circle-exclamation"></i>
-                                                        Membership
-                                                        expired</p>
-                                                    <% } else if (membership.expiringSoon){ %>
-                                                        <p class="card-subtitle px-3"><i
-                                                                class="fa-solid fa-circle-exclamation primary"></i>
-                                                            Membership
-                                                            expiring soon</p>
+                                        <% if (membership.expired) { %>
+                                            <div class="card p-3 mx-auto my-2 shadow-lg bg-gray"
+                                                style="max-width: 400px;">
+                                                <% } else { %>
+                                                    <div class="card p-3 mx-auto my-2 shadow-lg"
+                                                        style="max-width: 400px;">
                                                         <% } %>
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="card-text">Expires: <strong>
-                                                        <%=membership.expirationDate%>
-                                                    </strong>
-                                                </p>
-                                                <p class="card-text">Max Guests: <strong>
-                                                        <%=membership.maxGuests%>
-                                                    </strong>
-                                                </p>
-                                            </div>
-                                            <div class="card-footer d-flex justify-content-between bg-white">
-                                                <button class="btn btn-primary btn-large shadow voltaire"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#museumDetails<%=membership.place_id%>">See
-                                                    More</button>
-                                                <a href="/membership/seeMembership/<%=membership._id%>"
-                                                    class="btn btn-primary btn-large shadow voltaire">Edit</a>
-                                            </div>
-                                        </div>
 
-                                        <!-- Modal for Museum Details Button -->
-                                        <% JSON.stringify(museumInfo) %>
-                                            <div class="modal fade" id="museumDetails<%=membership.place_id%>"
-                                                tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog">
-
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">
-                                                                <%= museumInfo[0].museumName %>
-                                                            </h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-
-                                                        <div class="modal-body bg-light">
-                                                            <div class="mb-3">
-                                                                <p>
-                                                                    <strong>Address:</strong>
-                                                                    <%=museumInfo[0].formatted_address %>
+                                                            <div class="card-top border-bottom pb-1">
+                                                                <h3 class="card-title">
+                                                                    <%=membership.museumName%>
+                                                                </h3>
+                                                                <% if(membership.expired) { %>
+                                                                    <p class="card-subtitle px-3"><i
+                                                                            class="fa-solid fa-circle-exclamation"></i>
+                                                                        EXPIRED</p>
+                                                                    <% } else if (membership.expiringSoon){ %>
+                                                                        <p class="card-subtitle px-3"><i
+                                                                                class="fa-solid fa-circle-exclamation primary"></i>
+                                                                            Time to renew</p>
+                                                                        <% } else { %>
+                                                                            <p class="card-subtitle px-3 text-white"> -
+                                                                            </p>
+                                                                            <% } %>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <p class="card-text">Expires: <strong>
+                                                                        <%=membership.expirationDate%>
+                                                                    </strong>
                                                                 </p>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <p>
-                                                                    <strong>Phone:</strong>
-                                                                    <%=museumInfo[0].phone_number %>
+                                                                <p class="card-text">Max Guests: <strong>
+                                                                        <%=membership.maxGuests%>
+                                                                    </strong>
                                                                 </p>
+                                                                <% if (membership.notes) { %>
+                                                                    <p class="card-text"><strong>Notes:</strong>
+                                                                        <%=membership.notes%>
+                                                                    </p>
+                                                                    <% } %>
                                                             </div>
-                                                            <div>
-                                                                <p><strong>Hours:</strong></p>
-                                                                <div class="container">
-                                                                    <% for(let i=0; i < museumInfo[0].hours.length; i++)
-                                                                        { %>
-                                                                        <p>
-                                                                            <%=museumInfo[0].hours[i]%>
-                                                                        </p>
-                                                                        <% } %>
-                                                                </div>
+                                                            <div
+                                                                class="card-footer d-flex justify-content-between bg-transparent">
+                                                                <button
+                                                                    class="btn btn-primary btn-large shadow voltaire"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#museumDetails<%=membership.place_id%>">Hours
+                                                                    &
+                                                                    Info</button>
+                                                                <a href="/membership/seeMembership/<%=membership._id%>"
+                                                                    class="btn btn-primary btn-large shadow voltaire">Update</a>
                                                             </div>
-                                                            <% if (museumInfo[0].website.length !=0) { %>
-                                                                <div class="mb-3">
-                                                                    <p><strong>Website:</strong><a
-                                                                            href="<%=museumInfo[0].website%>"
-                                                                            target="_blank" class="pe-auto">
-                                                                            <%=museumInfo[0].website%>
-                                                                        </a></p>
-                                                                </div>
-                                                                <% } %>
-                                                        </div>
-
-                                                        <div class="modal-footer bg-light">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                        </div>
                                                     </div>
-                                                </div>
+
+                                                    <!-- Modal for Museum Details Button -->
+                                                    <% JSON.stringify(museumInfo) %>
+                                                        <div class="modal fade"
+                                                            id="museumDetails<%=membership.place_id%>" tabindex="-1"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog">
+
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">
+                                                                            <%= museumInfo[0].museumName %>
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+
+                                                                    <div class="modal-body bg-light">
+                                                                        <div class="mb-3">
+                                                                            <p>
+                                                                                <strong>Address:</strong>
+                                                                                <%=museumInfo[0].formatted_address %>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <p>
+                                                                                <strong>Phone:</strong>
+                                                                                <%=museumInfo[0].phone_number %>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p><strong>Hours:</strong></p>
+                                                                            <div class="container">
+                                                                                <% for(let i=0; i <
+                                                                                    museumInfo[0].hours.length; i++) {
+                                                                                    %>
+                                                                                    <p>
+                                                                                        <%=museumInfo[0].hours[i]%>
+                                                                                    </p>
+                                                                                    <% } %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <% if (museumInfo[0].website.length !=0) { %>
+                                                                            <div class="mb-3">
+                                                                                <p><strong>Website:</strong><a
+                                                                                        href="<%=museumInfo[0].website%>"
+                                                                                        target="_blank" class="pe-auto">
+                                                                                        <%=museumInfo[0].website%>
+                                                                                    </a></p>
+                                                                            </div>
+                                                                            <% } %>
+                                                                    </div>
+
+                                                                    <div class="modal-footer bg-light">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                             </div>
+                                            <% }) %>
                                     </div>
-                                    <% }) %>
                     </div>
-        </div>
-        <% } %>
+                    <% } %>
     </section>
 
     <!-- Create/Add Memberships -->
-    <section id="addAMembership" class="m-3">
+    <section id="addAMembership" class="bg-white p-5">
         <div class="container">
             <h2>Add a Membership</h2>
         </div>
@@ -172,7 +191,6 @@
                     </div>
                 </div>
             </div>
-            </div>
 
             <div class="form-row container">
                 <div class="container form-group col-sm-6">
@@ -187,12 +205,24 @@
                 </div>
             </div>
 
-            <div class="form-group hidden">
-                <input type="text" id="place_id" name="place_id" class="form-control hidden">
+            <div class="form-row p-1 m-1">
+                <div class="container form-group">
+                    <label for="notes">Membership Notes: </label>
+                    <textarea class="form-control" id="notes" name="notes"
+                        placeholder="ex: children under 2 in free"></textarea>
+                </div>
+            </div>
+
+            <div class="form-row p-1 m-1">
+                <div class=" container form-group">
+                    <label for="image">Optional: Upload an image of your membership card:</label>
+                    <input type="file" class="form-control" id="image" name="file">
+                    <small>JPG, JPEG, and PNG file types accepted.</small>
+                </div>
             </div>
 
             <div class="form-group hidden">
-                <input type="text" id="otherOrgName" name="otherOrgName" class="form-control hidden">
+                <input type="text" id="place_id" name="place_id" class="form-control hidden">
             </div>
 
             <div class="container text-center">
@@ -202,16 +232,38 @@
     </section>
 
     <!-- Nearby Museum Recommendations -->
-    <section id="showNearby" class="pt-5 pb-3 bg-light">
+    <!-- <section id="showNearby" class="pt-5 pb-3 bg-light">
+        
         <div class="container">
             <h2>Neaby Museums & Cultural Institutions</h2>
             <p>Looking for something new? Here are some places to checkout near you:</p>
-            <p><strong>This feature is coming soon!</strong></p>
+
+            <div class="container">
+                <p for="choosePlaceType">What are you looking for?</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioMuseum" id="radioMuseum" value="museum"
+                        checked>
+                    <label class="form-check-label" for="radioMuseum">Museums</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioZoo" id="radioZoo" value="zoo" disabled>
+                    <label class="form-check-label" for="radioZoo">Zoos</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioGallery" id="radioGallery"
+                        value="art-gallery" disabled>
+                    <label class="form-check-label" for="radioZoo">Art Galleries</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioPark" id="radioPark" value="park" disabled>
+                    <label class="form-check-label" for="radioPark">Parks</label>
+                </div>
+            </div>
         </div>
 
         <div class="container">
 
         </div>
-    </section>
+    </section> -->
 
     <%- include('partials/footer') -%>

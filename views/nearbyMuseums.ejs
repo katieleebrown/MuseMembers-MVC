@@ -1,0 +1,54 @@
+<%- include('partials/loginHeader') -%>
+    <section id="showNearby" class="mt-5 mx=auto">
+        <div class="container text-center mt-5">
+            <h2>Nearby Museums & Other Places to Check Out</h2>
+            <p>Looking for something new? Here are some places to checkout near you:</p>
+        </div>
+
+        <!-- Future Feature Goal: Allow users to toggle nearby recommendations by type (currently only museums offered) -->
+        <!-- <div class="container mx-auto text-center">
+            <p for="choosePlaceType">What are you looking for?</p>
+            <form id="nearbyRadio" class="form-group container mx-auto">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioOption" id="radioMuseum" value="museum"
+                        checked>
+                    <label class="form-check-label" for="radioMuseum">Museums</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioOption" id="radioZoo" value="zoo">
+                    <label class="form-check-label" for="radioZoo">Zoos</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioOption" id="radioGallery"
+                        value="art-gallery">
+                    <label class="form-check-label" for="radioZoo">Art Galleries</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioOption" id="radioPark" value="park">
+                    <label class="form-check-label" for="radioPark">Parks</label>
+                </div>
+            </form>
+        </div> -->
+
+        <div id="nearbyMap" class="container border" style="height: 300px;">
+
+        </div>
+
+        <div class="container">
+            <h3 class="m-5 text-center">Recommended Places Near You:</h3>
+            <div id="placesList" class="m-2 card-group g-2">
+
+            </div>
+        </div>
+
+        <div class="container hidden">
+            <p id="userLat">
+                <%= userLat %>
+            </p>
+            <p id="userLon">
+                <%= userLon %>
+            </p>
+        </div>
+    </section>
+
+    <%- include('partials/footer') -%>

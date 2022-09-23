@@ -33,6 +33,13 @@ h5,
     height: 300px;
 }
 
+#myMemberships {
+    background-image: url('/images/paint-splash-bg.png');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+}
+
 /* Media Styles */
 @media(min-width: 768px) {
     .news-input {

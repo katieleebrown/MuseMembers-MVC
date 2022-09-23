@@ -1,7 +1,4 @@
-// const { deleteMembership } = require("../../controllers/membership")
-
 // Variables
-const deleteBtn = document.querySelectorAll('.del')
 const orgSearch = document.getElementById('organizationSearch')
 const pickMuseumList = document.getElementById('chooseMuseum')
 const orgNameForm = document.getElementById('displayOrgNameForm')
@@ -10,33 +7,21 @@ const addOrgNote = document.getElementById('museumSearchTag')
 const orgDetailsForm = document.getElementById('selectedOrgInfoForm')
 const mapContainer = document.getElementById('mapContainer')
 const mapSearch = document.querySelector('#searchMap')
-
+const latitude = document.getElementById('userLat').innerText
+const longitude = document.getElementById('userLon').innerText
+const nearbyMap = document.getElementById('nearbyMap')
 
 // Event Listeners
-Array.from(deleteBtn).forEach((el) => {
-    el.addEventListener('click', deleteMembership)
-})
-pickMuseumList.addEventListener('click', displaySearch)
-mapSearch.addEventListener('click', showMapDetails)
-
-// Delete Membership Function
-// async function deleteMembership() {
-//     const MembershipId = this.parentNode.dataset.id
-//     try {
-//         const response = await fetch('membership/deleteMembership', {
-//             method: 'delete',
-//             headers: { 'Content-type': 'application/json' },
-//             body: JSON.stringify({
-//                 'membershipIdFromJSFile': MembershipId
-//             })
-//         })
-//         const data = await response.json()
-//         console.log(data)
-//         location.reload()
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+// document.addEventListener('DOMContentLoaded', loadNearby)
+if (pickMuseumList) {
+    pickMuseumList.addEventListener('click', displaySearch)
+}
+if (mapSearch) {
+    mapSearch.addEventListener('click', showMapDetails)
+}
+if (nearbyMap) {
+    document.addEventListener('DOMContentLoaded', showNearby)
+}
 
 // Display Organization Search or Update Display for Partner Museum
 function displaySearch() {
@@ -80,7 +65,7 @@ var map;
 var service;
 var infowindow;
 
-// For Google Find Place API
+// For Google Find Place API for grabbing business details
 function showMapDetails() {
     mapContainer.classList.remove('hidden')
     orgDetailsForm.classList.remove('hidden')
@@ -117,51 +102,74 @@ function showMapDetails() {
     });
 }
 
-// Google Map Map on Load Feature - not currently in use
-function initMap() {
-    console.log('map is loading');
+// For Nearby Museum Recommendations 
+function showNearby() {
+    console.log('this is working')
+    console.log(`museum has been selected`)
+    const location = new google.maps.LatLng(latitude, longitude);
 
-    var raleigh = new google.maps.LatLng(35.7796, 78.6382);
-
-    infowindow = new google.maps.InfoWindow();
-
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: raleigh,
-        zoom: 15,
+    // Creates the map
+    map = new google.maps.Map(document.getElementById('nearbyMap'), {
+        center: location,
+        zoom: 11
     });
 
     var request = {
-        query: "Museum of Natural Sciences",
-        fields: ["name", "geometry", "place_id", "formatted_address"],
+        location: location,
+        radius: 150000,
+        keyword: 'museum'
     };
 
-    console.log('request places')
-
     service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, (results, status) => {
+        if (status !== "OK" || !results) return;
 
-    service.findPlaceFromQuery(request, function (results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-            for (var i = 0; i < results.length; i++) {
-                createMarker(results[i]);
-                console.log('marker created')
+        console.log(results)
+        addPlaces(results, map);
+    });
+}
+
+function addPlaces(places, map) {
+    const placesList = document.getElementById('placesList')
+
+    places.forEach(place => {
+        if (place.geometry && place.geometry.location) {
+            // creating google map icon
+            const image = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25),
             }
-            map.setCenter(results[0].geometry.location);
-            console.log('center set')
+
+            // placing google maps icon
+            new google.maps.Marker({
+                map,
+                icon: image,
+                title: place.name,
+                position: place.geometry.location,
+            })
+
+            // Create card for this place
+            const div = document.createElement('div')
+            div.className = 'card m-2 p-2 border-0 shadow'
+            div.style = 'min-width: 300px;'
+
+            const cardTop = document.createElement('div')
+            cardTop.className = "card-top"
+
+            const nameHeader = document.createElement('p')
+            nameHeader.className = "card-title lead"
+            nameHeader.textContent = place.name
+
+            cardTop.appendChild(nameHeader)
+            div.appendChild(cardTop)
+
+            placesList.appendChild(div)
+            div.addEventListener('click', () => {
+                map.setCenter(place.geometry.location)
+            })
         }
-    });
+    })
 }
-
-function createMarker(place) {
-    if (!place.geometry || !place.geometry.location)
-        return;
-    var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location,
-    });
-    google.maps.event.addListener(marker, "click", function () {
-        infowindow.setContent(place.name || "");
-        infowindow.open(map);
-    });
-}
-
-window.initMap = initMap;
