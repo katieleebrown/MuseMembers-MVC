@@ -232,26 +232,38 @@
     </section>
 
     <!-- Nearby Museum Recommendations -->
-    <section id="showNearby" class="pt-5 pb-3 bg-light">
-        <div class="container hidden">
-            <p class="hidden" id="userLatitude">
-                <%= userLatitude %>
-            </p>
-            <p class="hidden" id="userLongitude">
-                <%= userLongitude %>
-            </p>
-        </div>
+    <!-- <section id="showNearby" class="pt-5 pb-3 bg-light">
+        
         <div class="container">
             <h2>Neaby Museums & Cultural Institutions</h2>
             <p>Looking for something new? Here are some places to checkout near you:</p>
-            <p><strong>This feature is coming soon!<%= userLatitude%></strong>
-                <%= userLongitude %>
-            </p>
+
+            <div class="container">
+                <p for="choosePlaceType">What are you looking for?</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioMuseum" id="radioMuseum" value="museum"
+                        checked>
+                    <label class="form-check-label" for="radioMuseum">Museums</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioZoo" id="radioZoo" value="zoo" disabled>
+                    <label class="form-check-label" for="radioZoo">Zoos</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioGallery" id="radioGallery"
+                        value="art-gallery" disabled>
+                    <label class="form-check-label" for="radioZoo">Art Galleries</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioPark" id="radioPark" value="park" disabled>
+                    <label class="form-check-label" for="radioPark">Parks</label>
+                </div>
+            </div>
         </div>
 
         <div class="container">
 
         </div>
-    </section>
+    </section> -->
 
     <%- include('partials/footer') -%>

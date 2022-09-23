@@ -14,6 +14,8 @@ router.put('/updateMembership/:id', membershipController.updateMembership)
 
 router.get('/deleteMembership/:id', membershipController.deleteMembership)
 
+router.get('/nearby', membershipController.getNearbyMuseums)
+
 module.exports = router
 
 //router.put('/markComplete', todosController.markComplete)

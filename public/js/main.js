@@ -7,14 +7,23 @@ const addOrgNote = document.getElementById('museumSearchTag')
 const orgDetailsForm = document.getElementById('selectedOrgInfoForm')
 const mapContainer = document.getElementById('mapContainer')
 const mapSearch = document.querySelector('#searchMap')
+const latitude = document.getElementById('userLat').innerText
+const longitude = document.getElementById('userLon').innerText
+const nearbyMap = document.getElementById('nearbyMap')
 
 // Event Listeners
+// document.addEventListener('DOMContentLoaded', loadNearby)
 if (pickMuseumList) {
     pickMuseumList.addEventListener('click', displaySearch)
 }
 if (mapSearch) {
     mapSearch.addEventListener('click', showMapDetails)
 }
+if (nearbyMap) {
+    document.addEventListener('DOMContentLoaded', showNearby)
+}
+
+
 
 // Display Organization Search or Update Display for Partner Museum
 function displaySearch() {
@@ -58,7 +67,7 @@ var map;
 var service;
 var infowindow;
 
-// For Google Find Place API
+// For Google Find Place API for grabbing business details
 function showMapDetails() {
     mapContainer.classList.remove('hidden')
     orgDetailsForm.classList.remove('hidden')
@@ -95,55 +104,137 @@ function showMapDetails() {
     });
 }
 
-// Google Maps - Nearby Museums Recommendations
+// For Nearby Museum Recommendations 
+function showNearby() {
+    console.log('this is working')
+    console.log(`museum has been selected`)
+    const location = new google.maps.LatLng(latitude, longitude);
 
-
-// Google Map Map on Load Feature - not currently in use
-function initMap() {
-    console.log('map is loading');
-
-    var raleigh = new google.maps.LatLng(35.7796, 78.6382);
-
-    infowindow = new google.maps.InfoWindow();
-
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: raleigh,
-        zoom: 15,
+    // Creates the map
+    map = new google.maps.Map(document.getElementById('nearbyMap'), {
+        center: location,
+        zoom: 13
     });
 
     var request = {
-        query: "Museum of Natural Sciences",
-        fields: ["name", "geometry", "place_id", "formatted_address"],
+        location: location,
+        radius: '30000',
+        type: ['park']
     };
 
-    console.log('request places')
-
     service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, (results, status) => {
+        if (status !== "OK" || !results) return;
 
-    service.findPlaceFromQuery(request, function (results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-            for (var i = 0; i < results.length; i++) {
-                createMarker(results[i]);
-                console.log('marker created')
+        console.log(results)
+        addPlaces(results, map);
+    });
+}
+
+function addPlaces(places, map) {
+    const placesList = document.getElementById('placesList')
+
+    places.forEach(place => {
+        if (place.geometry && place.geometry.location) {
+            const image = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25),
             }
-            map.setCenter(results[0].geometry.location);
-            console.log('center set')
+
+            new google.maps.Marker({
+                map,
+                icon: image,
+                title: place.name,
+                position: place.geometry.location,
+            })
+
+            // Create li
+            const li = document.createElement('li')
+
+            li.textContent = place.name
+            placesList.appendChild(li)
+            li.addEventListener('click', () => {
+                map.setCenter(place.geometry.location)
+            })
         }
-    });
+    })
 }
 
-// Google maps - update marker when moved
-function createMarker(place) {
-    if (!place.geometry || !place.geometry.location)
-        return;
-    var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location,
-    });
-    google.maps.event.addListener(marker, "click", function () {
-        infowindow.setContent(place.name || "");
-        infowindow.open(map);
-    });
-}
+    // function callback(results, status) {
+    //     if (status == google.maps.places.PlacesServiceStatus.OK) {
+    //         for (var i = 0; i < results.length; i++) {
+    //             createMarker(results[i]);
+    //         }
+    //     }
+    // }
 
-window.initMap = initMap;
+// Google Maps - Nearby Museums Recommendations
+// function loadNearby() {
+//     console.log('nearby museums now loading')
+
+//     // let axios = require('axios')
+//     let latitude = document.getElementById('userLatitude').innerText
+//     let longitude = document.getElementById('userLongitude').innerText
+//     let orgType = 'museum'
+//     let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&type=${orgType}&key=***REMOVED***`
+
+//     fetch(url)
+//         .then(result => JSON.stringify(result))
+//         .then((data => {
+//             console.log(data)
+//         }))
+//         .catch((error => {
+//             console.log(error)
+//         }))
+// }
+
+// Google Map Map on Load Feature - not currently in use
+// function initMap() {
+//     var raleigh = new google.maps.LatLng(35.7796, 78.6382);
+
+//     infowindow = new google.maps.InfoWindow();
+
+//     map = new google.maps.Map(document.getElementById("map"), {
+//         center: raleigh,
+//         zoom: 15,
+//     });
+
+//     var request = {
+//         query: "Museum of Natural Sciences",
+//         fields: ["name", "geometry", "place_id", "formatted_address"],
+//     };
+
+//     console.log('request places')
+
+//     service = new google.maps.places.PlacesService(map);
+
+//     service.findPlaceFromQuery(request, function (results, status) {
+//         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+//             for (var i = 0; i < results.length; i++) {
+//                 createMarker(results[i]);
+//                 console.log('marker created')
+//             }
+//             map.setCenter(results[0].geometry.location);
+//             console.log('center set')
+//         }
+//     });
+// }
+
+// // Google maps - update marker when moved
+// function createMarker(place) {
+//     if (!place.geometry || !place.geometry.location)
+//         return;
+//     var marker = new google.maps.Marker({
+//         map: map,
+//         position: place.geometry.location,
+//     });
+//     google.maps.event.addListener(marker, "click", function () {
+//         infowindow.setContent(place.name || "");
+//         infowindow.open(map);
+//     });
+// }
+
+// window.initMap = initMap
