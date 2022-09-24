@@ -3,6 +3,7 @@ const Membership = require('../models/Membership');
 const Museum = require('../models/Museum');
 const axios = require('axios');
 const User = require("../models/User")
+const googleKey = process.env.VITE_GOOGLE_MAPS_API_KEY
 
 module.exports = {
     getMemberships: async (req, res) => {
@@ -23,7 +24,7 @@ module.exports = {
                 card.expiringSoon = (new Date(card.expirationDate).getTime() < new Date(oneMonth).getTime()) ? true : false;
             })
 
-            res.render('dashboard.ejs', { memberships: membershipCards, museums: museums })
+            res.render('dashboard.ejs', { memberships: membershipCards, museums: museums, googleKey: googleKey })
         } catch (err) {
             console.log(err)
         }
@@ -163,7 +164,7 @@ module.exports = {
                     })
             }
 
-            res.render('nearbyMuseums.ejs', { userLat: userLatitude, userLon: userLongitude })
+            res.render('nearbyMuseums.ejs', { userLat: userLatitude, userLon: userLongitude, googleKey: googleKey })
         } catch (err) {
             console.log(err)
         }
