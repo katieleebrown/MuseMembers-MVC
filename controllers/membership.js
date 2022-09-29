@@ -121,6 +121,7 @@ module.exports = {
             await Membership.findOneAndUpdate({ _id: req.params.id }, {
                 expirationDate: new Date(dateFormat).toDateString(),
                 maxGuests: req.body.maxGuests,
+                notes: req.body.notes,
             }, {
                 new: true,
                 runValidators: true
