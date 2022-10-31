@@ -165,6 +165,23 @@ module.exports = {
                     })
             }
 
+            // var axios = require('axios')
+
+            // var config = {
+            //     method: 'get',
+            //     url: `https://maps.googleapis.com/maps/api/place/search/json?location=${userLatitude},${userLongitude}&radius=100000&types=museum&key=AIzaSyDnQe_oDB-TMkGvrJCfbUeJM0Cn4UQYEXo`,
+            //     headers: {}
+            // }
+
+            // let nearbyPlaces
+
+            // axios(config)
+            //     .then(function (response) {
+            //         JSON.stringify(response.data)
+            //         nearbyPlaces = response.data.results
+            //         console.log(nearbyPlaces)
+            //     })
+
             res.render('nearbyMuseums.ejs', { userLat: userLatitude, userLon: userLongitude, googleKey: googleKey })
         } catch (err) {
             console.log(err)

@@ -7,8 +7,8 @@ const addOrgNote = document.getElementById('museumSearchTag')
 const orgDetailsForm = document.getElementById('selectedOrgInfoForm')
 const mapContainer = document.getElementById('mapContainer')
 const mapSearch = document.querySelector('#searchMap')
-const latitude = ''
-const longitude = ''
+let latitude = ''
+let longitude = ''
 const nearbyMap = document.getElementById('nearbyMap')
 
 if (document.getElementById('userLat')) {
@@ -20,16 +20,15 @@ if (document.getElementById('userLon')) {
 }
 
 // Event Listeners
-// document.addEventListener('DOMContentLoaded', loadNearby)
 if (pickMuseumList) {
     pickMuseumList.addEventListener('click', displaySearch)
 }
 if (mapSearch) {
     mapSearch.addEventListener('click', showMapDetails)
 }
-if (nearbyMap) {
-    document.addEventListener('DOMContentLoaded', showNearby)
-}
+// if (nearbyMap) {
+//     document.addEventListener('DOMContentLoaded', showNearby)
+// }
 
 // Display Organization Search or Update Display for Partner Museum
 function displaySearch() {
@@ -111,41 +110,16 @@ function showMapDetails() {
         map.setCenter(results[0].geometry.location);
     
     });
-
-    // service.findPlaceFromQuery(request, function (results, status) {
-        
-    //     if (status === google.maps.places.PlacesServiceStatus.OK) {
-            
-    //         for (var i = 0; i < results.length; i++) {
-    //             createMarker(results[i]);
-    //         }
-    //         console.log(results);
-
-    //         //Set Org Name & Details
-    //         console.log(`orgName = ${results[0].name}`)
-    //         orgNameForm.innerText = results[0].name;
-    //         orgAddressForm.innerText = results[0].formatted_address;
-
-    //         // store Place_Id for later searches in local storage
-    //         var searchId = results[0].place_id;
-    //         localStorage.setItem('organization', searchId);
-    //         document.getElementById('place_id').value = searchId
-    //         pickMuseumList.options[pickMuseumList.selectedIndex].value = results[0].name
-    //         map.setCenter(results[0].geometry.location);
-    //     } else {
-    //         console.log('request error')
-    //     }
-    // });
 }
 
 // For Nearby Museum Recommendations 
 function showNearby() {
     console.log('this is working')
-    console.log(`museum has been selected`)
+    console.log(latitude, longitude)
     const location = new google.maps.LatLng(latitude, longitude);
 
     // Creates the map
-    map = new google.maps.Map(document.getElementById('nearbyMap'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: location,
         zoom: 11
     });
@@ -211,8 +185,9 @@ function addPlaces(places, map) {
 }
 
 function initMap() {
+
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 35.779, lng: 78.638},
+        center: {lat: 35.779, lng: -78.638},
         zoom: 12
     })
     
@@ -220,6 +195,11 @@ function initMap() {
     infowindow = new google.maps.InfoWindow()
 
     markers = []
+
+    if(nearbyMap) {
+        showNearby()
+    }
+    
 }
 
 function createMarker() {
