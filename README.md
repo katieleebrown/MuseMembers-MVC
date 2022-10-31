@@ -3,6 +3,8 @@ MuseMembers is a full-stack web app designed to manage memberships for museums a
 
 Take a look at the live app <a href="https://musemembers.herokuapp.com/">here</a>.
 
+![screenshot of the dashboard, displaying museum cards for each membership](/images/dashboardScreenshot.JPG)
+
 # Why It's Made
 This app is heavily inspired by my time spent working with museums and cultural institutions. While museum memberships are nice, most consumers tend to limit their purchases of memberships because access is so spread out - each museum has a different card, a different website, and a different way to get updates. MuseMembers is designed to keep all of that information together, while also giving recommendations on other places to checkout nearby. The hope is that this app eventually becomes a one stop shop as you're planning your weekend, and makes it easier to get on to the fun stuff, while also increasing museum attendance.
 
