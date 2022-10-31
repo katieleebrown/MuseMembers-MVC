@@ -15,7 +15,7 @@ if (document.getElementById('userLat')) {
     latitude = document.getElementById('userLat').innerText
 }
 
-if (document.getElementById('userLon').innerText) {
+if (document.getElementById('userLon')) {
     longitude = document.getElementById('userLon').innerText
 }
 
