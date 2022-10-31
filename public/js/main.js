@@ -7,9 +7,17 @@ const addOrgNote = document.getElementById('museumSearchTag')
 const orgDetailsForm = document.getElementById('selectedOrgInfoForm')
 const mapContainer = document.getElementById('mapContainer')
 const mapSearch = document.querySelector('#searchMap')
-const latitude = document.getElementById('userLat').innerText
-const longitude = document.getElementById('userLon').innerText
+const latitude = ''
+const longitude = ''
 const nearbyMap = document.getElementById('nearbyMap')
+
+if (document.getElementById('userLat')) {
+    latitude = document.getElementById('userLat').innerText
+}
+
+if (document.getElementById('userLon').innerText) {
+    longitude = document.getElementById('userLon').innerText
+}
 
 // Event Listeners
 // document.addEventListener('DOMContentLoaded', loadNearby)
