@@ -17,7 +17,7 @@
                                 <% let museumInfo=museums.filter(museum=> museum.place_id == placeId) %>
                                     <div class="col-sm-6 col-lg-4">
                                         <% if (membership.expired) { %>
-                                            <div class="card p-3 mx-auto my-2 shadow-lg bg-gray"
+                                            <div class="card p-3 mx-auto my-2 shadow-lg bg-dark text-white"
                                                 style="max-width: 400px;">
                                                 <% } else { %>
                                                     <div class="card p-3 mx-auto my-2 shadow-lg"
@@ -29,7 +29,7 @@
                                                                     <%=membership.museumName%>
                                                                 </h3>
                                                                 <% if(membership.expired) { %>
-                                                                    <p class="card-subtitle px-3"><i
+                                                                    <p class="card-subtitle px-3 text-warning"><i
                                                                             class="fa-solid fa-circle-exclamation"></i>
                                                                         EXPIRED</p>
                                                                     <% } else if (membership.expiringSoon){ %>
@@ -57,15 +57,24 @@
                                                                     <% } %>
                                                             </div>
                                                             <div
-                                                                class="card-footer d-flex justify-content-between bg-transparent">
+                                                                class="card-footer d-flex justify-content-between bg-transparent border-white">
                                                                 <button
-                                                                    class="btn btn-primary btn-large shadow voltaire"
+                                                                <% if(membership.expired) { %>
+                                                                    class="btn btn-warning btn-large shadow voltaire"
+                                                                    <% } else { %>
+                                                                        class="btn btn-primary btn-large shadow voltaire"
+                                                                        <% } %>
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#museumDetails<%=membership.place_id%>">Hours
                                                                     &
                                                                     Info</button>
                                                                 <a href="/membership/seeMembership/<%=membership._id%>"
-                                                                    class="btn btn-primary btn-large shadow voltaire">Update</a>
+                                                                    <% if(membership.expired) { %>
+                                                                        class="btn btn-warning btn-large shadow voltaire"
+                                                                        <% } else { %>
+                                                                            class="btn btn-primary btn-large shadow voltaire"
+                                                                            <% } %>
+                                                                    >Update</a>
                                                             </div>
                                                     </div>
 
