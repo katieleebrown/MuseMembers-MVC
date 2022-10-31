@@ -16,7 +16,7 @@
                             <% } %>
                 </div>
                 <div class="card-body">
-                    <form action="/membership/updateMembership/<%=membership._id%>?_method=PUT" method="POST"></form>
+                    <form action="/membership/updateMembership/<%=membership._id%>?_method=PUT" method="POST">
                     <div class="container form-group card-text">
                         <% let date=new Date(membership.expirationDate).toISOString().split('T') %>
                             <label for="expiration">Expiration Date:</label>
@@ -51,9 +51,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-white">
-                    <button class="btn btn-primary btn-large shadow voltaire" type="submit" value="save"><i
-                            class="fa-solid fa-floppy-disk"></i>
-                        Save</button>
+                    <input class="btn btn-primary btn-large shadow voltaire" type="submit">
 
                     <a href="/membership/deleteMembership/<%=membership._id%>"
                         class="btn btn-primary btn-large shadow voltaire"><i class="fa-solid fa-trash"></i>
