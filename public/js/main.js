@@ -79,7 +79,8 @@ function showMapDetails() {
     orgDetailsForm.classList.remove('hidden')
     console.log('button clicked');
 
-    var search = document.getElementById('orgNameInput').value;
+    let search = document.getElementById('orgNameInput').value;
+    console.log(`search parameters: ${search}`)
 
     var request = {
         query: search,
@@ -88,26 +89,53 @@ function showMapDetails() {
 
     service = new google.maps.places.PlacesService(map);
 
-    service.findPlaceFromQuery(request, function (results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-            for (var i = 0; i < results.length; i++) {
-                createMarker(results[i]);
-            }
-            console.log(results);
+    service.findPlaceFromQuery(request, (results, status) => {
+        console.log(status)
+        if (status !== "OK" || !results) return;
 
-            //Set Org Name & Details
-            console.log(`orgName = ${results[0].name}`)
-            orgNameForm.innerText = results[0].name;
-            orgAddressForm.innerText = results[0].formatted_address;
-
-            // store Place_Id for later searches in local storage
-            var searchId = results[0].place_id;
-            localStorage.setItem('organization', searchId);
-            document.getElementById('place_id').value = searchId
-            pickMuseumList.options[pickMuseumList.selectedIndex].value = results[0].name
-            map.setCenter(results[0].geometry.location);
+        console.log(results)
+        for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
         }
+
+        //Set Org Name & Details
+        console.log(`orgName = ${results[0].name}`)
+        orgNameForm.innerText = results[0].name;
+        orgAddressForm.innerText = results[0].formatted_address;
+
+        // store Place_Id for later searches in local storage
+        var searchId = results[0].place_id;
+        localStorage.setItem('organization', searchId);
+        document.getElementById('place_id').value = searchId
+        pickMuseumList.options[pickMuseumList.selectedIndex].value = results[0].name
+        map.setCenter(results[0].geometry.location);
+    
     });
+
+    // service.findPlaceFromQuery(request, function (results, status) {
+        
+    //     if (status === google.maps.places.PlacesServiceStatus.OK) {
+            
+    //         for (var i = 0; i < results.length; i++) {
+    //             createMarker(results[i]);
+    //         }
+    //         console.log(results);
+
+    //         //Set Org Name & Details
+    //         console.log(`orgName = ${results[0].name}`)
+    //         orgNameForm.innerText = results[0].name;
+    //         orgAddressForm.innerText = results[0].formatted_address;
+
+    //         // store Place_Id for later searches in local storage
+    //         var searchId = results[0].place_id;
+    //         localStorage.setItem('organization', searchId);
+    //         document.getElementById('place_id').value = searchId
+    //         pickMuseumList.options[pickMuseumList.selectedIndex].value = results[0].name
+    //         map.setCenter(results[0].geometry.location);
+    //     } else {
+    //         console.log('request error')
+    //     }
+    // });
 }
 
 // For Nearby Museum Recommendations 
@@ -180,4 +208,20 @@ function addPlaces(places, map) {
             })
         }
     })
+}
+
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 35.779, lng: 78.638},
+        zoom: 12
+    })
+    
+    service = new google.maps.places.PlacesService(map)
+    infowindow = new google.maps.InfoWindow()
+
+    markers = []
+}
+
+function createMarker() {
+
 }
