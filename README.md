@@ -1,7 +1,7 @@
 # Introduction
 MuseMembers is a full-stack web app designed to manage memberships for museums and cultural institutions. With the ability to view memberships, get alerts about upcoming expiration dates or recently lapsed memberships and recomendations on nearby cultural institutions to visit, MuseMembers is designed to get those cards out of your wallet and make planning your upcoming free time that much easier. MuseMembers also includes benefits for 'partner' museums - it allows them to share announcements with members of their institution, and in the future will include highlights for partners in the recommended section.
 
-Take a look at the live app <a href="https://musemembers.herokuapp.com/">here</a>.
+Take a look at the live app <a href="https://tame-lime-pig-tie.cyclic.app/">here</a>.
 
 ![screenshot of the dashboard, displaying museum cards for each membership](/images/dashboardScreenshot.JPG)
 
